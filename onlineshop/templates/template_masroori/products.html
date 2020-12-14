@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+        integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="css_fonts.css">
+<title>Document</title>
+</head>
+
+<body dir="rtl">
+
+    <nav class="navbar navbar-expand-sm bg-light justify-content-between">
+        <h2>پنل مدیریت فروشگاه</h2>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="products.html">کالاها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="inventory.html">انبارها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="quantity.html">موجودی و قیمت ها</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="orders.html">سفارش ها</a>
+            </li>
+        </ul>
+
+        <a class="navbar-brand" href="#">بازگشت به سایت</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+    </nav>
+
+<!-- Products TAB -->
+    <div class="container">
+        <row class="d-flex justify-content-between">
+
+            <div class="p-4">
+                <h3>مدیریت کالاها</h3>
+            </div>
+            <div class="p-4">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal_import">
+                    Import <i class="fas fa-file-import"> </i></button>
+
+                <button type="button" class="btn btn btn-success btn-lg" data-toggle="modal"
+                    data-target="#Modal_add">افزودن
+                    کالا</button>
+
+                <!-- Modal Import -->
+                <div class="modal fade" id="Modal_import" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal Import content-->
+                        <div class="modal-content">
+                            <div class="d-flex justify-content-between modal-header">
+                                <div>
+                                    <h4 class="modal-title">آپلود فایل جدول کالا</h4>
+                                </div>
+                                <div><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+                            </div>
+                            <div class="modal-body">
+
+                                <form>
+                                    <div class="d-flex justify-row-reverse">
+                                        <label name="file_upload">انتخاب فایل:</label>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <input type="text">
+                                        <input type="file">
+                                    </div>
+                                    <div class="d-flex justify-content-center p-4"><button
+                                            class="d-felx justify-center btn btn-info">آپلود و بروزرسانی جدول</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Modal Add -->
+                <div class="modal fade" id="Modal_add" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal Add content-->
+                        <div class="modal-content">
+                            <div class="d-flex justify-content-between modal-header">
+                                <div>
+                                    <h4 class="modal-title">افزودن/ویرایش کالا</h4>
+                                </div>
+                                <div><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+                            </div>
+                            <div class="modal-body">
+                                <form>
+                                    <div>
+                                        <label name="file_upload">نام کالا:</label><br>
+                                        <input type="text" class="form-control"
+                                            aria-label="Text input with segmented dropdown button">
+                                    </div>
+                                    <div>
+                                        <label name="category">دسته بندی:</label><br>
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <button type="button"
+                                                    class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
+                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <!-- <span class="sr-only">Toggle Dropdown</span> -->
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">دسته 1</a>
+                                                    <a class="dropdown-item" href="#">دسته 2</a>
+                                                    <a class="dropdown-item" href="#">دسته 3</a>
+                                                    <a class="dropdown-item" href="#">دسته 4</a>
+                                                </div>
+                                            </div>
+                                            <input type="text" class="form-control"
+                                                aria-label="Text input with segmented dropdown button">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-center p-4"><button
+                                            class="d-felx justify-center btn btn-info">ذخیره</button></div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </row>
+
+        <row class="d-flex justify-content-center">
+            <table class="table table-sm table-striped table-bordered">
+                <thead>
+                    <th>تصویر</th>
+                    <th>نام کالا</th>
+                    <th>دسته بندی</th>
+                    <th>فلان</th>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>لوبیا قرمز</td>
+                        <td>مواد غذایی / کالای اساسی</td>
+                        <td>
+                            <a data-toggle="modal" href="#Modal_add">ویرایش</a>
+                            <a href="#">حذف</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>روغن </td>
+                        <td>مواد غذایی / کالای اساسی</td>
+                        <td>
+                            <a data-toggle="modal" href="#Modal_add">ویرایش</a>
+                            <a href="#">حذف</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>کره</td>
+                        <td>مواد غذایی / کالای اساسی</td>
+                        <td>
+                            <a data-toggle="modal" href="#Modal_add">ویرایش</a>
+                            <a href="#">حذف</a>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table>
+        </row>
+    </div>
+
+
+
+
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

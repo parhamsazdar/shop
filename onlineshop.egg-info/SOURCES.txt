@@ -1,0 +1,12 @@
+setup.cfg
+setup.py
+onlineshop/__init__.py
+onlineshop/db.py
+onlineshop/manager.py
+onlineshop/products.py
+onlineshop/test.py
+onlineshop.egg-info/PKG-INFO
+onlineshop.egg-info/SOURCES.txt
+onlineshop.egg-info/dependency_links.txt
+onlineshop.egg-info/requires.txt
+onlineshop.egg-info/top_level.txt

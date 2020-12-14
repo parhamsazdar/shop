@@ -1,0 +1,12 @@
+Metadata-Version: 2.1
+Name: onlineshop
+Version: 1.0.0
+Summary: The basic blog app built in the Flask tutorial.
+Home-page: https://shop.ir
+Maintainer: parhamsazdar
+Maintainer-email: p.sazdar@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Description-Content-Type: text/x-rst
+Provides-Extra: test

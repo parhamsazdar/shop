@@ -1,0 +1,4 @@
+DATABASE_NAME='store_db'
+DATABASE_PASS='22561342Ps'
+DATABASE_USER='postgres'
+SECRET_KEY = "dev"

@@ -45,9 +45,7 @@ def register():
 
 @bp.route('/logout')
 def logout():
-    print(session['manager'])
-    if session['manager'] is None:
-        session.pop('manager', None)
+    session.pop('manager', None)
     return redirect(url_for('products.index'))
 
 

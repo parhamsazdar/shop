@@ -28,25 +28,26 @@ def logout():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
-    return render_template('login.html')
+    return render_template('template_ahmadvand/login.html')
 
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
-    error = 'parham'
+
     if request.method == 'POST':
         if register_manager(request.form['username'], request.form['password']):
             session['manager'] = request.form['username']
 
             return redirect(url_for('manager.manage_panel'))
         else:
-            return render_template('login.html', error=error)
+            return render_template('template_ahmadvand/login.html')
 
 
 @bp.route('/logout')
 def logout():
     session.pop('manager', None)
     return redirect(url_for('products.index'))
+
 
 
 @bp.route('/panel')

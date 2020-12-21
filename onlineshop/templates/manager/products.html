@@ -1,4 +1,4 @@
-{% extends 'template_masroori/base_manager.html' %}
+{% extends 'manager/base_manager.html' %}
 {% block content %}
 <!-- Products TAB -->
     <div class="container">
@@ -107,34 +107,7 @@
                     <th>دسته بندی</th>
                     <th class="text-center"></th>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td>لوبیا قرمز</td>
-                        <td>مواد غذایی / کالای اساسی</td>
-                        <td class="text-center">
-                            <a data-toggle="modal" href="#Modal_add">ویرایش</a>
-                            <a href="#">حذف</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>روغن </td>
-                        <td>مواد غذایی / کالای اساسی</td>
-                        <td class="text-center">
-                            <a data-toggle="modal" href="#Modal_add">ویرایش</a>
-                            <a href="#">حذف</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>کره</td>
-                        <td>مواد غذایی / کالای اساسی</td>
-                        <td class="text-center">
-                            <a data-toggle="modal" href="#Modal_add">ویرایش</a>
-                            <a href="#">حذف</a>
-                        </td>
-                    </tr>
+                <tbody id="product_table">
 
                 </tbody>
             </table>
@@ -142,6 +115,5 @@
     </div>
 
 {% endblock %}
-
 
 

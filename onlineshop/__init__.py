@@ -1,4 +1,3 @@
-
 from flask import Flask
 
 
@@ -21,10 +20,13 @@ def create_app(test_config=None):
         return "Hello, World!"
 
     # register the database commands
-    from onlineshop import manager,products
+    from onlineshop import manager,products,api
 
     app.register_blueprint(manager.bp)
     app.register_blueprint(products.bp)
+    app.register_blueprint(api.bp)
+
+
 
 
     # db.init_app(app)

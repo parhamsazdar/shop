@@ -1,7 +1,7 @@
+README.md
 setup.cfg
 setup.py
 onlineshop/__init__.py
-onlineshop/db.py
 onlineshop/manager.py
 onlineshop/products.py
 onlineshop/test.py

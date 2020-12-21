@@ -28,7 +28,7 @@ def logout():
 
 @bp.route('/login', methods=('GET', 'POST'))
 def login():
-    return render_template('template_ahmadvand/login.html')
+    return render_template('manager/login.html')
 
 
 @bp.route('/register', methods=('GET', 'POST'))
@@ -40,7 +40,7 @@ def register():
 
             return redirect(url_for('manager.manage_panel'))
         else:
-            return render_template('template_ahmadvand/login.html')
+            return render_template('manager/login.html')
 
 
 @bp.route('/logout')
@@ -52,24 +52,24 @@ def logout():
 
 @bp.route('/panel')
 def manage_panel():
-    return render_template('template_masroori/base_manager.html')
+    return render_template('manager/base_manager.html')
 
 
 @bp.route('/products')
 def manage_products():
-    return render_template('template_masroori/products.html')
+    return render_template('manager/products.html')
 
 
 @bp.route('/inventory')
 def manage_inventory():
-    return render_template('template_masroori/inventory.html')
+    return render_template('manager/inventory.html')
 
 
 @bp.route('/quantity')
 def manage_quantity():
-    return render_template('template_masroori/quantity.html')
+    return render_template('manager/quantity.html')
 
 
 @bp.route('/orders')
 def manage_orders():
-    return render_template('template_masroori/orders.html')
+    return render_template('manager/orders.html')

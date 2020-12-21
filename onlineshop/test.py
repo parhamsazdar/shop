@@ -1,6 +1,6 @@
 import hashlib
 
-<<<<<<< HEAD
+
 import json
 
 
@@ -17,7 +17,7 @@ def register(user,password):
 
 register('parham','22561342Ps')
 # hash_password_hack()
-=======
+
 from collections import OrderedDict
 
 
@@ -38,4 +38,4 @@ def hash_password_hack():
     print(d)
 
 hash_password_hack()
->>>>>>> 8280c89586c994151c7132887b855d83b0de1af3
+

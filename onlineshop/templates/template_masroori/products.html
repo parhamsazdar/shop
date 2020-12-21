@@ -2,7 +2,7 @@
 {% block content %}
 <!-- Products TAB -->
     <div class="container">
-        <row class="d-flex justify-content-between">
+        <div class="row d-flex justify-content-between">
 
             <div class="p-4">
                 <h3>مدیریت کالاها</h3>
@@ -97,22 +97,22 @@
 
             </div>
 
-        </row>
+        </div>
 
-        <row class="d-flex justify-content-center">
-            <table class="table table-sm table-striped table-bordered">
+        <div class="row d-flex justify-content-center">
+            <table class="table text-right table-sm table-striped table-bordered">
                 <thead>
                     <th>تصویر</th>
                     <th>نام کالا</th>
                     <th>دسته بندی</th>
-                    <th>فلان</th>
+                    <th class="text-center"></th>
                 </thead>
                 <tbody>
                     <tr>
                         <td></td>
                         <td>لوبیا قرمز</td>
                         <td>مواد غذایی / کالای اساسی</td>
-                        <td>
+                        <td class="text-center">
                             <a data-toggle="modal" href="#Modal_add">ویرایش</a>
                             <a href="#">حذف</a>
                         </td>
@@ -121,7 +121,7 @@
                         <td></td>
                         <td>روغن </td>
                         <td>مواد غذایی / کالای اساسی</td>
-                        <td>
+                        <td class="text-center">
                             <a data-toggle="modal" href="#Modal_add">ویرایش</a>
                             <a href="#">حذف</a>
                         </td>
@@ -130,7 +130,7 @@
                         <td></td>
                         <td>کره</td>
                         <td>مواد غذایی / کالای اساسی</td>
-                        <td>
+                        <td class="text-center">
                             <a data-toggle="modal" href="#Modal_add">ویرایش</a>
                             <a href="#">حذف</a>
                         </td>
@@ -138,7 +138,7 @@
 
                 </tbody>
             </table>
-        </row>
+        </div>
     </div>
 
 {% endblock %}

@@ -1,0 +1,27 @@
+[
+  {
+    "name": "کالای دیجیتال",
+    "subcategories" : [
+      {
+        "name":"گوشی",
+        "subcategoreis": {
+          "name": "اپل"
+        }
+      },
+      {
+        "name":"TV",
+        "subcategoreis": {
+          "name": "اپل"
+        }
+      },
+      {
+        "name":"ماشین لباس شویی",
+        "subcategoreis": {
+          "name": "سامسونگ"
+        }
+      }
+
+    ]
+
+  }
+]

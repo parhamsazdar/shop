@@ -56,10 +56,17 @@
     <!-- jQuery library -->
     <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
 
+
+    <script src="{{ url_for('static', filename='js/Popper.js') }}"></script>
+
     <!-- Latest compiled JavaScript -->
     <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-     <script src="{{ url_for('static', filename='js/main.js') }}?u={{ last_updated }}"></script>
 
+
+
+    {% block script %}
+
+    {% endblock %}
 
 </body>
 

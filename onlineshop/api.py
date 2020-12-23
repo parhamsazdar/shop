@@ -1,5 +1,11 @@
+import json
+
 from flask import Blueprint, url_for, session, request, render_template, redirect, g, flash, jsonify
 from pymongo import MongoClient
+import io
+from json import load
+
+
 
 bp = Blueprint('api', __name__, url_prefix="/api")
 
@@ -39,3 +45,11 @@ def prod_delete(product_id):
     db = client.online_shop
     db.products.delete_one({"_id": product_id})
     return jsonify(list(db.products.find()))
+
+@bp.route('/product/json_category')
+def prod_json_category():
+    with io.open(r'onlineshop/category.json',encoding='utf-8') as f:
+        f=load(f)
+
+        return jsonify(f)
+

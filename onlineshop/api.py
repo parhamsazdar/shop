@@ -43,12 +43,21 @@ def prod_add():
         return jsonify(db)
 
 
-@bp.route('/product/edit')
+@bp.route('/product/edit',methods=('GET', 'POST'))
 def prod_edit():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        pass
+
+        db.products.update({"_id":ObjectId(request.form.get('_id'))},{"$set":{"name_product": request.form.get('product_name'), "description": request.form.get('description'),
+                    "category": request.form.get('category'), "url_image": r"/static/images/surface.jpg"}})
+        res=list(db.products.find({"_id":ObjectId(request.form.get('_id'))}))
+        print(res)
+        for i in res:
+            i["_id"] = str(i["_id"])
+
+
+        return jsonify(res)
 
 
 @bp.route('/product/delete/<product_id>')

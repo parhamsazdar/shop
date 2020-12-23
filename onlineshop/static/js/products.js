@@ -12,6 +12,7 @@ $(document).ready(function () {
         row += "<td class='text-center'>" + "<a data-toggle=\"modal\" href=\"#Modal_edit\">ویرایش</a>" + "  " + "<a  class='delete' href=\"#\">حذف</a>" + "</td>";
         row += "</tr>";
         $tbody.append(row);
+
     }
     function deleteRow(product) {
 
@@ -24,11 +25,27 @@ $(document).ready(function () {
         })
     }
 
+    function handleEditLink(product){
+        $(document.getElementById(product._id)).find('a[href="#Modal_edit"]').click(function (){
+            $('#Modal_edit').prop('value',product._id)
+
+        })
+
+    }
+
+    function setChange(product){
+        var $tds=$(document.getElementById(product._id)).find('td')
+        $($tds[0]).prop('src',product.url_image)
+        $($tds[1]).html(product.name_product)
+        $($tds[2]).html(product.category)
+
+
+    }
     $.get('/api/product/list', function (resp) {
         var $resp = resp
         $resp.forEach(product => createRow(product))
         $resp.forEach(product => deleteRow(product))
-
+        $resp.forEach(product => handleEditLink(product))
     })
 
     $('#Modal_add #button').click(function () {
@@ -44,6 +61,8 @@ $(document).ready(function () {
                     var $resp = resp
                     $resp.forEach(product => createRow(product))
                     $resp.forEach(product => deleteRow(product))
+                    $resp.forEach(product => handleEditLink(product))
+
                 }
         })
     })
@@ -52,16 +71,16 @@ $(document).ready(function () {
      $('#Modal_edit #button').click(function (){
           $.ajax({
             url: '/api/product/edit',
-            data: {
+            data: {_id:$("#Modal_edit").prop('value'),
                 product_name: `${$('#Modal_edit #product_name').val()}`,
                 category: `${$('#Modal_edit #inputGroupSelect01').val()}`, description: `${$('#Modal_edit #description').val()}`
             },
             type: 'POST',
             success:
                 function (resp) {
-                    var $resp = resp
-                    $resp.forEach(product => createRow(product))
-                    $resp.forEach(product => deleteRow(product))
+                    console.log(resp)
+                    resp.forEach(product => setChange(product))
+
                 }
 
 
@@ -73,5 +92,7 @@ $(document).ready(function () {
 
 
 })
+
+
 
 })

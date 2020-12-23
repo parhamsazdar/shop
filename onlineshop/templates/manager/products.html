@@ -1,121 +1,178 @@
 {% extends 'manager/base_manager.html' %}
 {% block content %}
 <!-- Products TAB -->
-    <div class="container">
-        <div class="row d-flex justify-content-between">
+<div class="container">
+    <div class="row d-flex justify-content-between">
 
-            <div class="p-4">
-                <h3>مدیریت کالاها</h3>
-            </div>
-            <div class="p-4">
-                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal_import">
-                    Import <i class="fas fa-file-import"> </i></button>
+        <div class="p-4">
+            <h3>مدیریت کالاها</h3>
+        </div>
+        <div class="p-4">
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal_import">
+                Import <i class="fas fa-file-import"> </i></button>
 
-                <button type="button" class="btn btn btn-success btn-lg" data-toggle="modal"
+            <button type="button" class="btn btn btn-success btn-lg" data-toggle="modal"
                     data-target="#Modal_add">افزودن
-                    کالا</button>
+                کالا
+            </button>
 
-                <!-- Modal Import -->
-                <div class="modal fade" id="Modal_import" role="dialog">
-                    <div class="modal-dialog">
+            <!-- Modal Import -->
+            <div class="modal fade" id="Modal_import" role="dialog">
+                <div class="modal-dialog">
 
-                        <!-- Modal Import content-->
-                        <div class="modal-content">
-                            <div class="d-flex justify-content-between modal-header">
-                                <div>
-                                    <h4 class="modal-title">آپلود فایل جدول کالا</h4>
-                                </div>
-                                <div><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+                    <!-- Modal Import content-->
+                    <div class="modal-content">
+                        <div class="d-flex justify-content-between modal-header">
+                            <div>
+                                <h4 class="modal-title">آپلود فایل جدول کالا</h4>
                             </div>
-                            <div class="modal-body">
-
-                                <form>
-                                    <div class="d-flex justify-row-reverse">
-                                        <label name="file_upload">انتخاب فایل:</label>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <input type="text">
-                                        <input type="file">
-                                    </div>
-                                    <div class="d-flex justify-content-center p-4"><button
-                                            class="d-felx justify-center btn btn-info">آپلود و بروزرسانی جدول</button>
-                                    </div>
-                                </form>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                         </div>
+                        <div class="modal-body">
 
+                            <form>
+                                <div class="d-flex justify-row-reverse">
+                                    <label name="file_upload">انتخاب فایل:</label>
+                                </div>
+                                <div class="d-flex justify-content-between">
+                                    <input type="text">
+                                    <input type="file">
+                                </div>
+                                <div class="d-flex justify-content-center p-4">
+                                    <button
+                                            class="d-felx justify-center btn btn-info">آپلود و بروزرسانی جدول
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
+
                 </div>
+            </div>
 
-                <!-- Modal Add -->
-                <div class="modal fade" id="Modal_add" role="dialog">
-                    <div class="modal-dialog">
+            <!-- Modal Add -->
+            <div class="modal fade" id="Modal_edit" role="dialog">
+                <div class="modal-dialog">
 
-                        <!-- Modal Add content-->
-                        <div class="modal-content">
-                            <div class="d-flex justify-content-between modal-header">
-                                <div>
-                                    <h4 class="modal-title">افزودن/ویرایش کالا</h4>
-                                </div>
-                                <div><button type="button" class="close" data-dismiss="modal">&times;</button></div>
+                    <!-- Modal Add content-->
+                    <div class="modal-content">
+                        <div class="d-flex justify-content-between modal-header">
+                            <div>
+                                <h4 class="modal-title">ویرایش کالا</h4>
                             </div>
-                            <div class="modal-body">
-                                <form>
-                                    <div>
-                                        <label name="file_upload">نام کالا:</label><br>
-                                        <input type="text" class="form-control"
-                                            aria-label="Text input with segmented dropdown button">
-                                    </div>
-                                    <div>
-                                        <label name="category">دسته بندی:</label><br>
-                                        <div class="input-group">
-                                            <div class="input-group-append">
-                                                <button type="button"
-                                                    class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    <!-- <span class="sr-only">Toggle Dropdown</span> -->
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">دسته 1</a>
-                                                    <a class="dropdown-item" href="#">دسته 2</a>
-                                                    <a class="dropdown-item" href="#">دسته 3</a>
-                                                    <a class="dropdown-item" href="#">دسته 4</a>
-                                                </div>
-                                            </div>
-                                            <input type="text" class="form-control"
-                                                aria-label="Text input with segmented dropdown button">
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-center p-4"><button
-                                            class="d-felx justify-center btn btn-info">ذخیره</button></div>
-                                </form>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
                             </div>
                         </div>
+                        <div class="modal-body">
+                            <form>
+                                <div>
+                                    <label name="file_upload">نام کالا:</label><br>
+                                    <input type="text" class="form-control"
+                                           aria-label="Text input with segmented dropdown button" value="parham" id="product_name">
+                                </div>
+                                <div>
+                                    <label name="category">دسته بندی:</label><br>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                                        </div>
+                                        <select class="custom-select" id="inputGroupSelect01">
+                                            <option selected>Choose...</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
 
+                                    <input type="text" class="form-control"
+                                           aria-label="Text input with segmented dropdown button" id="description">
+                                </div>
+
+                        <div class="d-flex justify-content-center p-4">
+                            <button
+                                    class="d-felx justify-center btn btn-info" id="button">ذخیره
+                            </button>
+                        </div>
+                        </form>
                     </div>
                 </div>
 
             </div>
+        </div>
+            <div class="modal fade" id="Modal_add" role="dialog">
+                <div class="modal-dialog">
 
+                    <!-- Modal Add content-->
+                    <div class="modal-content">
+                        <div class="d-flex justify-content-between modal-header">
+                            <div>
+                                <h4 class="modal-title">افزودن</h4>
+                            </div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div>
+                                    <label name="file_upload">نام کالا:</label><br>
+                                    <input type="text" class="form-control"
+                                           aria-label="Text input with segmented dropdown button" value="parham" id="product_name">
+                                </div>
+                                <div>
+                                    <label name="category">دسته بندی:</label><br>
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <label class="input-group-text" for="inputGroupSelect01">Options</label>
+                                        </div>
+                                        <select class="custom-select" id="inputGroupSelect01">
+                                            <option selected>Choose...</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                        </select>
+                                    </div>
+
+                                    <input type="text" class="form-control"
+                                           aria-label="Text input with segmented dropdown button" id="description">
+                                </div>
+
+                        <div class="d-flex justify-content-center p-4">
+                            <button
+                                    class="d-felx justify-center btn btn-info" id="button">ذخیره
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
-        <div class="row d-flex justify-content-center">
-            <table class="table text-right table-sm table-striped table-bordered">
-                <thead>
-                    <th>تصویر</th>
-                    <th>نام کالا</th>
-                    <th>دسته بندی</th>
-                    <th class="text-center"></th>
-                </thead>
-                <tbody id="product_table">
-
-                </tbody>
-            </table>
-        </div>
     </div>
 
+</div>
+
+<div class="row d-flex justify-content-center">
+    <table class="table text-right table-sm table-striped table-bordered">
+        <thead>
+        <th>تصویر</th>
+        <th>نام کالا</th>
+        <th>دسته بندی</th>
+        <th class="text-center"></th>
+        </thead>
+        <tbody id="product_table">
+
+        </tbody>
+    </table>
+</div>
+</div>
+
 {% endblock %}
-    {% block script %}
+{% block script %}
 
 <script src="{{ url_for('static', filename='js/products.js') }}?u={{ last_updated }}"></script>
-    {% endblock %}
+{% endblock %}

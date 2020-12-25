@@ -12,10 +12,10 @@ $(document).ready(function () {
         row += "<td class='text-center'>" + "<a data-toggle=\"modal\" href=\"#Modal_edit\">ویرایش</a>" + "  " + "<a  class='delete' href=\"#\">حذف</a>" + "</td>";
         row += "</tr>";
         $tbody.append(row);
-
+        deleteRow(product)
+        handleEditLink(product)
     }
     function deleteRow(product) {
-
         res = $(document.getElementById(product._id)).find(".delete").click(function () {
             var $tr = $(this).closest('tr');
             url = '/api/product/delete/' + $tr.attr('id')
@@ -28,9 +28,7 @@ $(document).ready(function () {
     function handleEditLink(product){
         $(document.getElementById(product._id)).find('a[href="#Modal_edit"]').click(function (){
             $('#Modal_edit').prop('value',product._id)
-
         })
-
     }
 
     function setChange(product){
@@ -38,14 +36,11 @@ $(document).ready(function () {
         $($tds[0]).prop('src',product.url_image)
         $($tds[1]).html(product.name_product)
         $($tds[2]).html(product.category)
-
-
     }
+
+
     $.get('/api/product/list', function (resp) {
-        var $resp = resp
-        $resp.forEach(product => createRow(product))
-        $resp.forEach(product => deleteRow(product))
-        $resp.forEach(product => handleEditLink(product))
+        resp.forEach(product => createRow(product))
     })
 
     $('#Modal_add #button').click(function () {
@@ -58,11 +53,8 @@ $(document).ready(function () {
             type: 'POST',
             success:
                 function (resp) {
-                    var $resp = resp
-                    $resp.forEach(product => createRow(product))
-                    $resp.forEach(product => deleteRow(product))
-                    $resp.forEach(product => handleEditLink(product))
-
+                    resp.forEach(product => createRow(product))
+                    $('#Modal_edit').modal('hide')
                 }
         })
     })
@@ -78,21 +70,26 @@ $(document).ready(function () {
             type: 'POST',
             success:
                 function (resp) {
-                    console.log(resp)
                     resp.forEach(product => setChange(product))
-
+                    $('#Modal_edit').modal('hide')
                 }
 
+        })
+    })
+        $('#upload_button').click(function (){
+            console.log(3)
+            var fd = new FormData();
+            var files = $('#file')[0].files;
+            fd['file']=files[0]
+            $.ajax({
+                url:'/api/'
 
 
-     })
+
+            })
 
 
 
-
-
-})
-
-
+    })
 
 })

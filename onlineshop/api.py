@@ -78,6 +78,10 @@ def prod_delete(product_id):
     return jsonify(res)
 
 
+@bp.route('/product/upload',methods=('GET,POST'))
+def upload_file_category():
+    pass
+
 @bp.route('/product/json_category')
 def prod_json_category():
     with io.open(r'onlineshop/category.json', encoding='utf-8') as f:

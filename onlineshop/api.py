@@ -8,6 +8,15 @@ from json import load
 bp = Blueprint('api', __name__, url_prefix="/api")
 
 
+def opencon(func):
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    def wrapper(*args,**kwargs):
+
+        func(db)
+    return wrapper
+
+
 @bp.route('/product/list')
 def prod_list():
     client = MongoClient('localhost', 27017)
@@ -15,12 +24,11 @@ def prod_list():
     prod_list = list(db.products.find())
     for i in prod_list:
         i["_id"] = str(i["_id"])
-
     return jsonify(prod_list)
 
 
 @bp.route('/product/<product_id>')
-def prod_details(product_id):
+def prod_details(product_id,db):
     client = MongoClient('localhost', 27017)
     db = client.online_shop
     prod_details = list(db.products.find({"_id": product_id}))
@@ -48,7 +56,6 @@ def prod_edit():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-
         db.products.update({"_id":ObjectId(request.form.get('_id'))},{"$set":{"name_product": request.form.get('product_name'), "description": request.form.get('description'),
                     "category": request.form.get('category'), "url_image": r"/static/images/surface.jpg"}})
         res=list(db.products.find({"_id":ObjectId(request.form.get('_id'))}))

@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+
+<!------ Include the above in your HEAD tag ---------->
+<body class="text-right">
+
+<div class="card mt-5 col-6 offset-3 ">
+<article class="card-body">
+<h4 class="card-title col-10 offset-1">ورود به پنل مدیریت فروشگاه فلاننن</h4>
+	 <form method="post" action="{{url_for('manager.register')}}">
+    <div class="form-group col-8 offset-2">
+    	<label>نام کاربری</label>
+        <input name="username" id="username"  class="form-control" placeholder="به عنوان مثال hasan1" type="username">
+    </div> <!-- form-group// -->
+    <div class="form-group col-8 offset-2">
+
+    	<label >رمز عبور</label>
+        <input  name="password"  id ="password" class="form-control" placeholder="***********" type="password">
+    </div> <!-- form-group// -->
+
+    <div class="form-group text-left">
+        <button type="submit" class="btn btn-basic col-4 offset-4 mt-1 border-3 btn-outline-dark ">ورود</button>
+    </div> <!-- form-group// -->
+         <a class="float-left" href="{{url_for('products.index')}}">باز گشت به سایت</a>
+</form>
+</article>
+</div>
+    <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+
+
+
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+</body>

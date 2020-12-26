@@ -1,41 +1,65 @@
-import hashlib
-
-<<<<<<< HEAD
+import io
 import json
+from pathlib import Path
 
-
-def register(user,password):
-    password = str(password)
-    obj = hashlib.sha256()
-    obj.update(password.encode())
-    li=[user,obj.hexdigest()]
-    with open('manager_info.json','r') as f:
-        f=json.load(f)
-    if li in f:
-        print('yes')
-
-
-register('parham','22561342Ps')
-# hash_password_hack()
-=======
-from collections import OrderedDict
+import openpyxl
+from werkzeug.utils import secure_filename
 
 
 
 
-def hash_password_hack():
-    d=OrderedDict()
-    j=OrderedDict()
-    y=OrderedDict()
-    for i in ['22561342Ps','22122860','admin']:
-        i=str(i)
-        obj=hashlib.sha256()
 
-        obj.update(i.encode())
+def return_category(filename):
+    li = []
+    with io.open(filename, encoding='utf-8') as f:
+        f = json.load(f)
+        category = f[0]
+        for i in range(len(category['subcategories'])):
+            cat2 = category['name']
+            cat2 += r'/' + category['subcategories'][i]['name']
+            for j in range(len(category['subcategories'][0]['subcategoreis'])):
+                cat3 = cat2
+                cat3 += r'/' + category['subcategories'][i]['subcategoreis'][j]['name']
+                li.append(cat3)
+                cat3 = cat2
+    return li
 
-        d[i]=d.get(i,obj.hexdigest())
-    d =OrderedDict([(value, key) for key, value in d.items()])
-    print(d)
 
-hash_password_hack()
->>>>>>> 8280c89586c994151c7132887b855d83b0de1af3
+def check_validation_exel():
+    xlsx_file = Path(r'C:\Users\ASUS\Desktop\justfortest.xlsx')
+    wb_obj = openpyxl.load_workbook(xlsx_file)
+    sheet = wb_obj.active
+    # print(sheet.iter_rows())
+    category=set()
+    for row in sheet.iter_rows(max_row=sheet.max_row):
+        category.add(row[-2].value)
+    for cat in category:
+        if cat in return_category(r'category.json'):
+            print(cat)
+        # for cell in row:
+        #     print(cell.value, end="/")
+        # print()
+
+
+# check_validation_exel()
+
+# print(return_category(r'category.json'))
+
+def check_validation_excel(path):
+    category=[]
+    xlsx_file = Path(path)
+    wb_obj = openpyxl.load_workbook(xlsx_file)
+    sheet = wb_obj.active
+    for row in sheet.iter_rows(max_row=sheet.max_row):
+        if row[-2].value not in return_category(r'category.json'):
+            raise Exception('your category is wrong')
+        else:
+            category.append({
+                'name_product':row[-1].value,
+                'category':row[-2].value,
+                'descrption':row[-3].value,
+                'url_image':row[-4].value
+            })
+    return category
+
+print(check_validation_excel(r'C:\Users\ASUS\Desktop\justfortest.xlsx'))

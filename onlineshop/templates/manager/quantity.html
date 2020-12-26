@@ -1,0 +1,161 @@
+{% extends 'manager/base_manager.html' %}
+{% block content %}
+<!-- TAB مدیریت موجودی و قیمت ها -->
+
+<div class="container">
+    <div class="row d-flex justify-content-between">
+
+        <div class="p-4">
+            <h3>مدیریت موجودی و قیمت ها</h3>
+        </div>
+        <div class="p-4">
+            <button type="button" class="btn btn btn-success btn-lg" data-toggle="modal" data-target="#myModal">
+                افزودن
+                موجودی
+            </button>
+
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="d-flex justify-content-between modal-header">
+                            <div>
+                                <h4 class="modal-title">افزودن به انبار</h4>
+                            </div>
+                            <div>
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            </div>
+
+                        </div>
+                        <div class="modal-body">
+                            <form class="text-right">
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="prod_name">نام محصول</label>
+                                        <input type="text" class="form-control" id="prod_name">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="prod_price">قیمت محصول</label>
+                                        <input type="text" class="form-control" id="prod_price">
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="form-group col-md-6">
+                                        <label for="id_whare">شماره انبار</label>
+                                        <input type="text" class="form-control" id="id_whare">
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label for="num_prod">تعداد محصول افزودنی</label>
+                                        <input type="text" class="form-control" id="num_prod">
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="d-flex justify-content-center modal-footer">
+                            <button type="button" class="btn btn-info" data-dismiss="modal">ذخیره</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <table class="table text-right table-sm table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>انبار</th>
+                    <th>کالا</th>
+                    <th>قیمت</th>
+                    <th>موجودی</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>انبار شماره 1</td>
+                    <td>لوبیا</td>
+                    <td>120000</td>
+                    <td>95</td>
+                    <td class="text-center">
+                        <a data-toggle="modal" href="#Modal_Edition_Quantity">ویرایش</a>
+                        <a href="#">حذف</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>انبار شماره 2</td>
+                    <td>گوشت</td>
+                    <td>950000</td>
+                    <td>12</td>
+                    <td class="text-center">
+                        <a data-toggle="modal" href="#Modal_Edition_Quantity">ویرایش</a>
+                        <a href="#">حذف</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>انبار شماره 3</td>
+                    <td>عدس</td>
+                    <td>25000</td>
+                    <td>9</td>
+                    <td class="text-center">
+                        <a data-toggle="modal" href="#Modal_Edition_Quantity">ویرایش</a>
+                        <a href="#">حذف</a>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal Edition Quantity -->
+    <div class="modal fade" id="Modal_Edition_Quantity" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="d-flex justify-content-between modal-header">
+                    <div>
+                        <h4 class="modal-title">ویرایش انبار</h4>
+                    </div>
+                    <div>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                </div>
+                <div class="modal-body">
+                    <form class="text-right">
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="prod_name">نام کالا</label>
+                                <input type="text" class="form-control" id="prod_name">
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="prod_price">قیمت کالا</label>
+                                <input type="text" class="form-control" id="prod_price">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="num_prod">تعداد کالا</label>
+                                <input type="text" class="form-control" id="num_prod">
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                <div class="d-flex justify-content-center modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">ذخیره</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+
+{% endblock %}

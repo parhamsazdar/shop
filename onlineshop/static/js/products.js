@@ -76,20 +76,26 @@ $(document).ready(function () {
 
         })
     })
-        $('#upload_button').click(function (){
-            console.log(3)
-            var fd = new FormData();
-            var files = $('#file')[0].files;
-            fd['file']=files[0]
-            $.ajax({
-                url:'/api/'
+       $('#upload-file-btn').click(function() {
+        var form_data = new FormData($('#upload-file')[0]);
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/upload',
+            data: form_data,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(resp) {
+                if (!(resp[0].error)){
+                    resp.forEach(product => createRow(product))
+                    $('#Modal_import').modal('hide')
+                }
+                else {
+                    alert(resp[0].error)
+                }
 
-
-
-            })
-
-
-
-    })
+            },
+        });
+    });
 
 })

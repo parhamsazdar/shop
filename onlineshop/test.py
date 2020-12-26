@@ -1,62 +1,65 @@
 import io
-from json import load, loads
+import json
+from pathlib import Path
 
-with io.open(r'category.json', encoding='utf-8') as f:
-    f = load(f)
-    print(f)
-
-category = f[0]
-
-cat = category['name'] + r'/' + category['subcategories'][0]['name'] + r'/' + \
-      category['subcategories'][0]['subcategoreis'][0]['name']
-print(category['subcategories'][0]['subcategoreis'])
-
-print(cat)
-li=[]
-category=f[0]
-
-for i in range(len(category['subcategories'])):
-    cat2 = category['name']
-    cat2+=r'/'+category['subcategories'][i]['name']
-    for j in range(len(category['subcategories'][0]['subcategoreis'])):
-        cat3=cat2
-        cat3+= r'/'+category['subcategories'][i]['subcategoreis'][j]['name']
-        li.append(cat3)
-        cat3=cat2
-#
-print(li)
+import openpyxl
+from werkzeug.utils import secure_filename
 
 
-# def return_category(filename):
-#     li = []
-#     with io.open(filename, encoding='utf-8') as f:
-#         f = load(f)
-#         category = f[0]
-#         for i in range(len(category['subcategories'])):
-#             cat2 = category['name']
-#             cat2 += r'/' + category['subcategories'][i]['name']
-#             for j in range(len(category['subcategories'][0]['subcategoreis'])):
-#                 cat2 += r'/' + category['subcategories'][i]['subcategoreis'][j]['name']
-#                 li.append(cat2)
-#     return li
 
+
+
+def return_category(filename):
+    li = []
+    with io.open(filename, encoding='utf-8') as f:
+        f = json.load(f)
+        category = f[0]
+        for i in range(len(category['subcategories'])):
+            cat2 = category['name']
+            cat2 += r'/' + category['subcategories'][i]['name']
+            for j in range(len(category['subcategories'][0]['subcategoreis'])):
+                cat3 = cat2
+                cat3 += r'/' + category['subcategories'][i]['subcategoreis'][j]['name']
+                li.append(cat3)
+                cat3 = cat2
+    return li
+
+
+def check_validation_exel():
+    xlsx_file = Path(r'C:\Users\ASUS\Desktop\justfortest.xlsx')
+    wb_obj = openpyxl.load_workbook(xlsx_file)
+    sheet = wb_obj.active
+    # print(sheet.iter_rows())
+    category=set()
+    for row in sheet.iter_rows(max_row=sheet.max_row):
+        category.add(row[-2].value)
+    for cat in category:
+        if cat in return_category(r'category.json'):
+            print(cat)
+        # for cell in row:
+        #     print(cell.value, end="/")
+        # print()
+
+
+# check_validation_exel()
 
 # print(return_category(r'category.json'))
 
-# for i in category['subcategoreis']:
-#     cat+=i[name]
+def check_validation_excel(path):
+    category=[]
+    xlsx_file = Path(path)
+    wb_obj = openpyxl.load_workbook(xlsx_file)
+    sheet = wb_obj.active
+    for row in sheet.iter_rows(max_row=sheet.max_row):
+        if row[-2].value not in return_category(r'category.json'):
+            raise Exception('your category is wrong')
+        else:
+            category.append({
+                'name_product':row[-1].value,
+                'category':row[-2].value,
+                'descrption':row[-3].value,
+                'url_image':row[-4].value
+            })
+    return category
 
-
-# for i in f[0]
-#     cat=''
-#     if type(f[0][i]) is not list:
-#         cat+=f[0][i]+r'/'
-#     else:
-#         for j in f[0][i]:
-#             if type(f[0][i][j]) is not list:
-#                 cat += f[0][i][j] + r'/'
-#             else:
-#                 for z in f[0][i][j]:
-#                     cat += f[0][i][j][z] + r'/'
-#
-#     print(cat)
+print(check_validation_excel(r'C:\Users\ASUS\Desktop\justfortest.xlsx'))

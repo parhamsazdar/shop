@@ -143,3 +143,57 @@ def prod_json_category():
     with io.open(r'onlineshop/category.json', encoding='utf-8') as f:
         f = load(f)
         return jsonify(f)
+
+
+@bp.route('/inventory/list')
+def inventory_list():
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    inventory_list = list(db.inventory.find({}, {"name_inventory": 1}))
+    for i in inventory_list:
+        i["_id"] = str(i["_id"])
+    return jsonify(inventory_list)
+
+
+@bp.route('/inventory/delete/<inventory_id>')
+def inventory_delete(inventory_id):
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    db.inventory.delete_one({"_id": ObjectId(inventory_id)})
+    res = list(db.inventory.find())
+    for i in res:
+        i["_id"] = str(i["_id"])
+    return jsonify(res)
+
+
+@bp.route('/inventory/add')
+def inventory_add():
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    count = db.inventory.count_documents({})
+    new_inventory = {"name_inventory": f" انبار شماره {count + 1} ", "items": []}
+    res = db.inventory.insert_one(new_inventory)
+    new_inventory["_id"] = str(res.inserted_id)
+    return jsonify([new_inventory])
+
+
+@bp.route('/inventory/items', methods=('GET', 'POST'))
+def inventory_items():
+    if request.method=="POST":
+        client = MongoClient('localhost', 27017)
+        db = client.online_shop
+        data = request.form['_id']
+        res = db.inventory.aggregate(
+            [{"$unwind": {"path": "$items"}}, {"$match": {"_id": ObjectId(f"{data}")}},
+             {"$project": {"items.name_product": 1, "_id": 0}}])
+        return jsonify([{"name_product":i['items']['name_product']} for i in list(res)])
+
+
+@bp.route('inventory/edit',methods=('GET', 'POST'))
+def inventory_edit():
+    if request.method=="POST":
+        client = MongoClient('localhost', 27017)
+        db = client.online_shop
+        data = request.form
+
+        return data

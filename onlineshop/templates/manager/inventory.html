@@ -1,106 +1,199 @@
 {% extends 'manager/base_manager.html' %}
 
 {% block content %}
-<!-- TAB انبار ها -->
+    <!-- TAB انبار ها -->
 
-<div class="container">
-    <div class="row d-flex justify-content-between">
+    <div class="container">
+        <div class="row d-flex justify-content-between">
 
-        <div class="p-4">
-            <h3>مدیریت انبارها</h3>
+            <div class="p-4">
+                <h3>مدیریت انبارها</h3>
+            </div>
+            <div class="p-4">
+                <button type="button" class="btn btn btn-success btn-lg" id="add_inventory">افزودن
+                    انبار
+                </button>
+
+            </div>
         </div>
-        <div class="p-4">
-            <button type="button" class="btn btn btn-success btn-lg">افزودن
-                انبار
-            </button>
-
-        </div>
-    </div>
 
 
-    <div class="row d-flex justify-content-center">
-        <table class="table text-right w-50 table-sm table-striped table-bordered">
-            <thead>
+        <div class="row d-flex justify-content-center">
+            <table class="table text-right w-50 table-sm table-striped table-bordered">
+                <thead>
                 <tr>
                     <th>نام انبار</th>
                     <th class="text-center"></th>
                 </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>انبار شماره 1</td>
-                    <td class="text-center">
-                        <a data-toggle="modal" href="#Modal_Edition_Inventory">ویرایش</a>
-                        <a href="#">حذف</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>انبار شماره 2</td>
-                    <td class="text-center">
-                        <a data-toggle="modal" href="#Modal_Edition_Inventory">ویرایش</a>
-                        <a href="#">حذف</a>
-                    </td>
-                </tr>
-                <tr>
-                    <td>انبار شماره 3</td>
-                    <td class="text-center">
-                        <a data-toggle="modal" href="#Modal_Edition_Inventory">ویرایش</a>
-                        <a href="#">حذف</a>
-                    </td>
-                </tr>
-
-            </tbody>
-        </table>
-    </div>
+                </thead>
+                <tbody id="inventory_table">
 
 
-    <!-- Modal Edition Inventory -->
-    <div class="modal fade" id="Modal_Edition_Inventory" role="dialog">
-        <div class="modal-dialog">
+                </tbody>
+            </table>
+        </div>
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="d-flex justify-content-between modal-header">
-                    <div>
-                        <h4 class="modal-title">ویرایش انبار</h4>
-                    </div>
-                    <div>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
 
-                </div>
-                <div class="modal-body">
-                    <form class="text-right">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="prod_name">ویرایش نام انبار </label>
-                                <input type="text" class="form-control" id="prod_name">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="prod_price">نام کالا</label>
-                                <input type="text" class="form-control" id="prod_price">
-                            </div>
+        <!-- Modal Edition Inventory -->
+        <div class="modal fade" id="Modal_Edition_Inventory" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+
+
+                <div class="modal-content">
+
+                    <div class="d-flex justify-content-between modal-header">
+                        <div>
+                            <h4 class="modal-title">ویرایش انبار</h4>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="num_prod">تعداد کالا</label>
-                                <input type="text" class="form-control" id="num_prod">
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="num_prod">قیمت کالا</label>
-                                <input type="text" class="form-control" id="num_prod">
-                            </div>
+                        <div>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
                         </div>
 
-                    </form>
-                </div>
-                <div class="d-flex justify-content-center modal-footer">
-                    <button type="button" class="btn btn-info" data-dismiss="modal">ذخیره</button>
+                    </div>
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="edit-tab" data-toggle="tab" href="#home" role="tab"
+                               aria-controls="home" aria-selected="true">ویرایش کالا</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="add-tab" data-toggle="tab" href="#profile" role="tab"
+                               aria-controls="profile" aria-selected="false">افزون کالا</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab"
+                               aria-controls="contact" aria-selected="false">ویرایش نام انبار</a>
+                        </li>
+                    </ul>
+                    <div class="modal-body">
+                        <div class="tab-content" id="myTabContent">
+
+                            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+
+                                <form class="text-right">
+                                    <div class="form-row">
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">نام
+                                                    کالا</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect01">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="num_prod">تعداد کالا</label>
+                                            <input type="text" class="form-control" id="num_prod">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="num_price">قیمت کالا</label>
+                                            <input type="text" class="form-control" id="num_price">
+                                        </div>
+                                    </div>
+
+                                </form>
+                                <div class="d-flex justify-content-center modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" id="edit_button">
+                                        ویرایش کالا
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+
+
+                                <form class="text-right">
+                                    <div class="form-row">
+
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <label class="input-group-text" for="inputGroupSelect01">نام
+                                                    کالا</label>
+                                            </div>
+                                            <select class="custom-select" id="inputGroupSelect02">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="num_prod">تعداد کالا</label>
+                                            <input type="text" class="form-control" id="num_prod">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="num_price">قیمت کالا</label>
+                                            <input type="text" class="form-control" id="num_price">
+                                        </div>
+                                    </div>
+
+                                </form>
+
+                                <div class="d-flex justify-content-center modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" id="add_product">
+                                        افزودن کالا
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+                                <div class="form-group col-md-6">
+                                    <div style="display: flex;justify-content: flex-start">
+                                    <label for="prod_name" >ویرایش نام انبار </label>
+                                    </div>
+                                    <input type="text" class="form-control" id="inventory_name">
+                                    <div class="d-flex justify-content-center modal-footer">
+                                    <button type="button" class="btn btn-info" data-dismiss="modal" id="edit_name">
+                                        ذخیره
+                                    </button>
+                                </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
 
+
         </div>
+
     </div>
-</div>
+    </div>
+    </div>
+
+
+
+
+    </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}
+{% block script %}
+
+    <script src="{{ url_for('static', filename='js/inventory.js') }}?u={{ last_updated }}"></script>
 {% endblock %}
 

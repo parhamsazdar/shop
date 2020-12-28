@@ -17,7 +17,7 @@ def index():
 
 @bp.route('/category/؟name=<category_name>')
 def category():
-    pass
+    return render_template('template_masroori/new_products.html')
 
 
 

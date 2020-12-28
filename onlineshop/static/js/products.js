@@ -41,6 +41,7 @@ $(document).ready(function () {
 
 
     $.get('/api/product/list', function (resp) {
+        console.log(resp)
         resp.forEach(product => createRow(product))
     })
 

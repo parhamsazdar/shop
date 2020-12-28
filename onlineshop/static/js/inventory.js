@@ -83,23 +83,52 @@ $(document).ready(function () {
     })
 
 
-     $('#edit_button').click(function (){
-          $.ajax({
+    $('#edit_button').click(function () {
+        $.ajax({
             url: '/api/inventory/edit',
-            data: {_id:$("#Modal_Edition_Inventory").prop('value'),
-                 name_product:{"name_product":`${$('#Modal_Edition_Inventory #inputGroupSelect01').val()}`},
-                price: `${$('#Modal_Edition_Inventory #num_price').val()}`, quantity: `${$('#Modal_Edition_Inventory #num_prod').val()}`
+            data: {
+                _id: $("#Modal_Edition_Inventory").prop('value'),
+                name_product: `${$('#Modal_Edition_Inventory #inputGroupSelect01').val()}`,
+                price: `${$('#Modal_Edition_Inventory #num_price').val()}`,
+                quantity: `${$('#Modal_Edition_Inventory #num_prod').val()}`
             },
             type: 'POST',
-            success:
-                function (resp) {
-                console.log(resp)
-                    // resp.forEach(product => setChange(product))
-                    // $('#Modal_edit').modal('hide')
-                }
+            success:function (resp){
+                alert(resp['result'])
+                $("#Modal_Edition_Inventory").modal('hide')
+
+            }
 
         })
     })
 
+    $('#add_product').click(function () {
+        $.ajax({
+            url: '/api/inventory/add_prod',
+            type: "POST",
+            data: {
+                _id: $("#Modal_Edition_Inventory").prop('value'),
+                name_product: `${$('#Modal_Edition_Inventory #inputGroupSelect02').val()}`,
+                price: `${$('#Modal_Edition_Inventory #price_prod_add').val()}`,
+                quantity: `${$('#Modal_Edition_Inventory #num_prod_add').val()}`
+            },
+            success:function (resp){
+                alert(resp['result'])
+                $("#Modal_Edition_Inventory").modal('hide')
+
+            }
+
+        })
+
+
+    })
+    $('#edit_name').click(function (){
+        $.ajax({
+            url:
+
+        })
+
+
+    })
 
 })

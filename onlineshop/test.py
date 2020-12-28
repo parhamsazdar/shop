@@ -76,7 +76,7 @@
 import io
 import json
 
-
+from datetime import datetime
 
 def return_category(filename):
     li = []
@@ -93,4 +93,6 @@ def return_category(filename):
                 cat3 = cat2
     return li
 
-print(return_category(r'category.json'))
+# print(return_category(r'category.json'))
+
+print(datetime.now())

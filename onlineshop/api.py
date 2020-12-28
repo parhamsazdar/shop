@@ -203,6 +203,7 @@ def inventory_edit():
 
         return {"result": "update succsesfully"}
 
+
 @bp.route('inventory/add_prod', methods=('GET', 'POST'))
 def inventory_add_prod():
     if request.method == "POST":
@@ -210,10 +211,36 @@ def inventory_add_prod():
         db = client.online_shop
         db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
                             {"$push": {
-                                "items":{
-                                    "$each" :
-                                    [{"name_product":f'{request.form.get("name_product")}',
-                                "quantity": request.form.get('quantity'),
-                                "price": request.form.get('price')}]}}})
+                                "items": {
+                                    "$each":
+                                        [{"name_product": f'{request.form.get("name_product")}',
+                                          "quantity": request.form.get('quantity'),
+                                          "price": request.form.get('price'),
+                                          "date_insert": datetime.now()}]}}})
 
         return {"result": "update succsesfully"}
+
+
+@bp.route('inventory/edit_name_inventory', methods=('GET', 'POST'))
+def inventory_edit_name_inventory():
+    if request.method == "POST":
+        client = MongoClient('localhost', 27017)
+        db = client.online_shop
+        db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
+                            {"$set": {"name_inventory": request.form.get('name_inventory')}})
+
+        return jsonify(
+            [{"name_inventory": f"{request.form.get('name_inventory')}", "_id": f"{request.form.get('_id')}"}])
+
+
+@bp.route('inventory/delete_prod', methods=('GET', 'POST'))
+def inventory_delete_prod():
+    if request.method == "POST":
+        client = MongoClient('localhost', 27017)
+        db = client.online_shop
+        db.inventory.update(
+            {"_id":ObjectId(f'{request.form.get("_id")}')},
+            { "$pull": {"items": {"name_product": request.form.get('name_product')}}}
+
+        )
+    return {'result': "delete action succsefully done ","_id":request.form.get("_id")}

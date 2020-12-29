@@ -80,8 +80,13 @@ def prod_add():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
+        # f = request.files['file']
+        # f.save(r'onlineshop/uploads/' + secure_filename(f.filename))
+        # print(f)
+        f=request.files['file']
+        f.save(r'onlineshop/static/images/' + secure_filename(f.filename))
         prob_add = {"name_product": request.form.get('product_name'), "description": request.form.get('description'),
-                    "category": request.form.get('category'), "url_image": r"/static/images/surface.jpg"}
+                    "category": request.form.get('category'), "url_image": fr"/static/images/{secure_filename(f.filename)}"}
         res = db.products.insert_one(prob_add)
 
         db = list(db.products.find({"_id": res.inserted_id}))
@@ -96,14 +101,15 @@ def prod_edit():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
+        f=request.files['file']
+        f.save(r'onlineshop/static/images/' + secure_filename(f.filename))
         db.products.update({"_id": ObjectId(request.form.get('_id'))}, {
             "$set": {"name_product": request.form.get('product_name'), "description": request.form.get('description'),
-                     "category": request.form.get('category'), "url_image": r"/static/images/surface.jpg"}})
+                     "category": request.form.get('category'), "url_image": fr"/static/images/{secure_filename(f.filename)}"}})
         res = list(db.products.find({"_id": ObjectId(request.form.get('_id'))}))
         print(res)
         for i in res:
             i["_id"] = str(i["_id"])
-
         return jsonify(res)
 
 
@@ -121,7 +127,9 @@ def prod_delete(product_id):
 @bp.route('/product/upload', methods=('GET', 'POST'))
 def upload_file_category():
     if request.method == 'POST':
-        f = request.files['file']
+
+        f=request.files['file']
+        print(request.form)
         f.save(r'onlineshop/uploads/' + secure_filename(f.filename))
         try:
             category = check_validation_excel(fr'onlineshop/uploads/{secure_filename(f.filename)}')

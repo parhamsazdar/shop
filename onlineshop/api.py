@@ -6,7 +6,6 @@ from flask import Blueprint, url_for, session, request, render_template, redirec
 from pymongo import MongoClient
 import io
 from json import load
-import xlrd
 from werkzeug.utils import secure_filename
 import openpyxl
 from pathlib import Path
@@ -48,15 +47,14 @@ def check_validation_excel(path):
             })
     return category
 
-
-def opencon(func):
-    client = MongoClient('localhost', 27017)
-    db = client.online_shop
-
-    def wrapper(*args, **kwargs):
-        func(db)
-
-    return wrapper
+def update(db,request):
+    res = db.inventory.update_many({"_id": ObjectId(request.form.get('_id')), "items.name_product": request.form.get('name_product')},
+                                   {"$inc": {"items.$.quantity": int(request.form.get('quantity'))},
+                                    "$set": {"items.$.price": int(request.form.get('price')), "items.$.date_insert": datetime.now()}})
+    if res.modified_count==0:
+        return True
+    else:
+        return False
 
 
 @bp.route('/product/list')
@@ -195,14 +193,16 @@ def inventory_edit():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}'),
-                             "items": {"$elemMatch": {"name_product": f'{request.form.get("name_product")}'}}},
-                            {"$set": {
-                                "items.$.quantity": request.form.get('quantity'),
-                                "items.$.price": request.form.get('price')}})
+        if update(db,request):
+            db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}'),
+                                 "items": {"$elemMatch": {"name_product": f'{request.form.get("name_product")}'}}},
+                                {"$set": {
+                                    "items.$.quantity": int(request.form.get('quantity')),
+                                    "items.$.price": int(request.form.get('price'))}})
 
-        return {"result": "update succsesfully"}
-
+            return jsonify([{"result": "update succsesfully"}, request.form])
+        else:
+            pass
 
 @bp.route('inventory/add_prod', methods=('GET', 'POST'))
 def inventory_add_prod():
@@ -214,11 +214,11 @@ def inventory_add_prod():
                                 "items": {
                                     "$each":
                                         [{"name_product": f'{request.form.get("name_product")}',
-                                          "quantity": request.form.get('quantity'),
-                                          "price": request.form.get('price'),
+                                          "quantity": int(request.form.get('quantity')),
+                                          "price": int(request.form.get('price')),
                                           "date_insert": datetime.now()}]}}})
 
-        return {"result": "update succsesfully"}
+        return jsonify([{"result": "update succsesfully"}, request.form])
 
 
 @bp.route('inventory/edit_name_inventory', methods=('GET', 'POST'))
@@ -239,8 +239,45 @@ def inventory_delete_prod():
         client = MongoClient('localhost', 27017)
         db = client.online_shop
         db.inventory.update(
-            {"_id":ObjectId(f'{request.form.get("_id")}')},
-            { "$pull": {"items": {"name_product": request.form.get('name_product')}}}
+            {"_id": ObjectId(f'{request.form.get("_id")}')},
+            {"$pull": {"items": {"name_product": request.form.get('name_product')}}}
 
         )
-    return {'result': "delete action succsefully done ","_id":request.form.get("_id")}
+
+        return {'result': "delete action succsefully done ", "_id": request.form.get("_id")}
+
+
+@bp.route('quantity/quantity_list')
+def quantity_list():
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    res = list(db.inventory.aggregate([{"$unwind": {"path": "$items"}}]))
+    for i in res:
+        i["_id"] = str(i["_id"])
+    return jsonify(res)
+
+
+@bp.route('quantity/quantity_add',methods=('GET', 'POST'))
+def quantity_add():
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    name_inventory=list(db.inventory.find({"_id": ObjectId(f'{request.form.get("_id")}')},{"name_inventory":1}))
+    if update(db,request):
+        res={'result':False}
+        db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
+                            {"$push": {
+                                "items": {
+                                    "$each":
+                                        [{"name_product": f'{request.form.get("name_product")}',
+                                          "quantity": int(request.form.get('quantity')),
+                                          "price": int(request.form.get('price')),
+                                          "date_insert":datetime.now()
+                                         }]}}})
+    else:
+        res = {'result': True}
+    for i in name_inventory:
+        i["_id"]=str(i["_id"])
+    res.update(name_inventory[0])
+    res.update(request.form)
+    return jsonify(res)
+

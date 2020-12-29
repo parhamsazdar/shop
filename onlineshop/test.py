@@ -78,21 +78,35 @@ import json
 
 from datetime import datetime
 
-def return_category(filename):
-    li = []
-    with io.open(filename, encoding='utf-8') as f:
-        f = json.load(f)
-        category = f[0]
-        for i in range(len(category['subcategories'])):
-            cat2 = category['name']
-            cat2 += r'/' + category['subcategories'][i]['name']
-            for j in range(len(category['subcategories'][0]['subcategoreis'])):
-                cat3 = cat2
-                cat3 += r'/' + category['subcategories'][i]['subcategoreis'][j]['name']
-                li.append(cat3)
-                cat3 = cat2
-    return li
+from bson import ObjectId
+from pymongo import MongoClient
+
+# def return_category(filename):
+#     li = []
+#     with io.open(filename, encoding='utf-8') as f:
+#         f = json.load(f)
+#         category = f[0]
+#         for i in range(len(category['subcategories'])):
+#             cat2 = category['name']
+#             cat2 += r'/' + category['subcategories'][i]['name']
+#             for j in range(len(category['subcategories'][0]['subcategoreis'])):
+#                 cat3 = cat2
+#                 cat3 += r'/' + category['subcategories'][i]['subcategoreis'][j]['name']
+#                 li.append(cat3)
+#                 cat3 = cat2
+#     return li
 
 # print(return_category(r'category.json'))
 
-print(datetime.now())
+# client = MongoClient('localhost', 27017)
+# db = client.online_shop
+# res = db.inventory.update_many({"_id": ObjectId('5fe81d7cc82e151f344df4a8'), "items.name_product": "shaiami"},
+#                                {"$inc": {"items.$.quantity": 1000}, "$set": {"items.$.price": 17,"items.$.date_insert":datetime.now()}})
+# print(res.modified_count)
+
+
+b={2:1}
+
+a={1:2}
+a.update({2:2})
+print(a)

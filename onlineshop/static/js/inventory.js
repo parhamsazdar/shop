@@ -89,7 +89,7 @@ $(document).ready(function () {
   });
 
   $.get("/api/inventory/list", function (resp) {
-    resp.forEach((product) => createRow(product));
+    resp.forEach((inventory) => createRow(inventory));
   });
 
   $("#add_inventory").click(function () {
@@ -115,7 +115,7 @@ $(document).ready(function () {
       },
       type: "POST",
       success: function (resp) {
-        alert(resp["result"]);
+        alert(resp[0]["result"]);
         $("#Modal_Edition_Inventory").modal("hide");
       }
     });
@@ -134,7 +134,7 @@ $(document).ready(function () {
         quantity: `${$("#Modal_Edition_Inventory #num_prod_add").val()}`
       },
       success: function (resp) {
-        alert(resp["result"]);
+        alert(resp[0]["result"]);
         $("#Modal_Edition_Inventory").modal("hide");
         handleProductDropDwonAjax();
       }

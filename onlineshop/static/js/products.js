@@ -34,7 +34,11 @@ $(document).ready(function () {
 
     function setChange(product) {
         var $tds = $(document.getElementById(product._id)).find('td')
+<<<<<<< HEAD
         $($tds[0]).prop('src', product.url_image)
+=======
+        $($tds[0]).find('img').attr('src', product.url_image)
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
         $($tds[1]).html(product.name_product)
         $($tds[2]).html(product.category)
     }
@@ -46,24 +50,40 @@ $(document).ready(function () {
     })
 
     $('#Modal_add #button').click(function () {
+        var form_data=new FormData($('#Modal_add #upload-file')[0])
+        form_data.append("product_name",$('#Modal_add #product_name').val())
+        form_data.append("category",$('#Modal_add #inputGroupSelect01').val())
+        form_data.append("description",$('#Modal_add #description').val())
         $.ajax({
             url: '/api/product/add',
+<<<<<<< HEAD
             data: {
                 product_name: `${$('#Modal_add #product_name').val()}`,
                 category: `${$('#Modal_add #inputGroupSelect01').val()}`,
                 description: `${$('#Modal_add #description').val()}`
             },
+=======
+            data: form_data,
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
             type: 'POST',
+             contentType: false,
+            cache: false,
+            processData: false,
             success:
                 function (resp) {
                     resp.forEach(product => createRow(product))
+<<<<<<< HEAD
                     $('#Modal_edit').modal('hide')
+=======
+                    $('#Modal_add').modal('hide')
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
                 }
         })
     })
 
 
     $('#Modal_edit #button').click(function () {
+<<<<<<< HEAD
         $.ajax({
             url: '/api/product/edit',
             data: {
@@ -72,11 +92,25 @@ $(document).ready(function () {
                 category: `${$('#Modal_edit #inputGroupSelect01').val()}`,
                 description: `${$('#Modal_edit #description').val()}`
             },
+=======
+        var form_data=new FormData($('#Modal_edit #upload-file')[0])
+        form_data.append("_id",$("#Modal_edit").prop('value'))
+        form_data.append("product_name",$('#Modal_edit #product_name').val())
+        form_data.append("category",$('#Modal_edit #inputGroupSelect01').val())
+        form_data.append("description",$('#Modal_edit #description').val())
+        $.ajax({
+            url: '/api/product/edit',
+            data: form_data,
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
             type: 'POST',
+             contentType: false,
+            cache: false,
+            processData: false,
             success:
                 function (resp) {
                     resp.forEach(product => setChange(product))
                     $('#Modal_edit').modal('hide')
+<<<<<<< HEAD
                 }
 
         })
@@ -98,6 +132,32 @@ $(document).ready(function () {
                     alert(resp[0].error)
                 }
 
+=======
+                }
+        })
+    })
+    $('#Modal_import #upload-file-btn').click(function () {
+        var form_data_1 = new FormData($('#Modal_import #upload-file')[0]);
+        form_data_1.append("_id","parham")
+        $.ajax({
+            type: 'POST',
+            url: '/api/product/upload',
+            data: form_data_1
+            ,
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function (resp) {
+                console.log(resp)
+                if (!(resp[0].error)) {
+
+                    resp.forEach(product => createRow(product))
+                    $('#Modal_import').modal('hide')
+                } else {
+                    alert(resp[0].error)
+                }
+
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
             },
         });
     });

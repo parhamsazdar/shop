@@ -1,37 +1,38 @@
 {% extends 'manager/base_manager.html' %}
 {% block content %}
-<!-- Products TAB -->
-<div class="container">
-    <div class="row d-flex justify-content-between">
+    <!-- Products TAB -->
+    <div class="container">
+        <div class="row d-flex justify-content-between">
 
-        <div class="p-4">
-            <h3>مدیریت کالاها</h3>
-        </div>
-        <div class="p-4">
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal_import">
-                Import <i class="fas fa-file-import"> </i></button>
+            <div class="p-4">
+                <h3>مدیریت کالاها</h3>
+            </div>
+            <div class="p-4">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#Modal_import">
+                    Import <i class="fas fa-file-import"> </i></button>
 
-            <button type="button" class="btn btn btn-success btn-lg" data-toggle="modal"
-                    data-target="#Modal_add">افزودن
-                کالا
-            </button>
+                <button type="button" class="btn btn btn-success btn-lg" data-toggle="modal"
+                        data-target="#Modal_add">افزودن
+                    کالا
+                </button>
 
-            <!-- Modal Import -->
-            <div class="modal fade" id="Modal_import" role="dialog">
-                <div class="modal-dialog">
+                <!-- Modal Import -->
+                <div class="modal fade" id="Modal_import" role="dialog">
+                    <div class="modal-dialog">
 
-                    <!-- Modal Import content-->
-                    <div class="modal-content">
-                        <div class="d-flex justify-content-between modal-header">
-                            <div>
-                                <h4 class="modal-title">آپلود فایل جدول کالا</h4>
+                        <!-- Modal Import content-->
+                        <div class="modal-content">
+                            <div class="d-flex justify-content-between modal-header">
+                                <div>
+                                    <h4 class="modal-title">آپلود فایل جدول کالا</h4>
+                                </div>
+                                <div>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
                             </div>
-                            <div>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
-                        </div>
-                        <div class="modal-body">
+                            <div class="modal-body">
 
+<<<<<<< HEAD
                             <!--                            <form>-->
                             <div class="d-flex justify-row-reverse">
                                 <form id="upload-file" method="post" enctype="multipart/form-data">
@@ -46,27 +47,50 @@
 
                             </div>
                             <!--                            </form>-->
+=======
+                                <!--                            <form>-->
+                                <div class="d-flex justify-row-reverse">
+                                    <form id="upload-file" method="post" enctype="multipart/form-data">
+                                        <fieldset>
+                                            <label for="file">Select a file</label>
+                                            <input name="file" type="file">
+
+
+                                        </fieldset>
+                                        <fieldset>
+                                            <button id="upload-file-btn" type="button">Upload</button>
+                                        </fieldset>
+                                    </form>
+
+                                </div>
+                                <!--                            </form>-->
+                            </div>
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
                         </div>
+
                     </div>
-
                 </div>
-            </div>
 
-            <!-- Modal Add -->
-            <div class="modal fade" id="Modal_edit" role="dialog">
-                <div class="modal-dialog">
+                <!-- Modal Add -->
+                <div class="modal fade" id="Modal_edit" role="dialog">
+                    <div class="modal-dialog">
 
-                    <!-- Modal Add content-->
-                    <div class="modal-content">
-                        <div class="d-flex justify-content-between modal-header">
-                            <div>
-                                <h4 class="modal-title">ویرایش کالا</h4>
+                        <!-- Modal Add content-->
+                        <div class="modal-content">
+                            <div class="d-flex justify-content-between modal-header">
+                                <div>
+                                    <h4 class="modal-title">ویرایش کالا</h4>
+                                </div>
+                                <div>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
                             </div>
-                            <div>
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            </div>
+<<<<<<< HEAD
                         </div>
                         <div class="modal-body">
+=======
+                            <div class="modal-body">
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
 
                                 <div>
                                     <label name="file_upload">نام کالا:</label><br>
@@ -83,23 +107,47 @@
 
                                         <select class="custom-select" id="inputGroupSelect01">
                                             {% if category %}
+<<<<<<< HEAD
                                             {% for item in category %}
                                             <option value="{{item}}">{{item}}</option>
                                             {% endfor %}
+=======
+                                                {% for item in category %}
+                                                    <option value="{{ item }}">{{ item }}</option>
+                                                {% endfor %}
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
                                             {% endif %}
                                         </select>
                                     </div>
-
+                                    <label for="description">توضیحات</label>
                                     <input type="text" class="form-control"
                                            aria-label="Text input with segmented dropdown button" id="description">
                                 </div>
 
+<<<<<<< HEAD
+=======
+                                <div class="d-flex justify-row-reverse">
+                                    <form id="upload-file" method="post" enctype="multipart/form-data">
+                                        <fieldset class="mt-3">
+                                            <label for="file">Select a image</label>
+                                            <input name="file" type="file">
+
+
+                                        </fieldset>
+
+                                    </form>
+
+                                </div>
+
+
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
                                 <div class="d-flex justify-content-center p-4">
                                     <button
                                             class="d-felx justify-center btn btn-info" id="button">ذخیره
                                     </button>
                                 </div>
 
+<<<<<<< HEAD
                         </div>
                     </div>
 
@@ -119,6 +167,27 @@
                             </div>
                         </div>
                         <div class="modal-body">
+=======
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="modal fade" id="Modal_add" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal Add content-->
+                        <div class="modal-content">
+                            <div class="d-flex justify-content-between modal-header">
+                                <div>
+                                    <h4 class="modal-title">افزودن</h4>
+                                </div>
+                                <div>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+                            </div>
+                            <div class="modal-body">
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
 
                                 <div>
                                     <label name="file_upload">نام کالا:</label><br>
@@ -134,16 +203,37 @@
                                         </div>
                                         <select class="custom-select" id="inputGroupSelect01">
                                             {% if category %}
+<<<<<<< HEAD
                                             {% for item in category %}
                                             <option value="{{item}}">{{item}}</option>
                                             {% endfor %}
+=======
+                                                {% for item in category %}
+                                                    <option value="{{ item }}">{{ item }}</option>
+                                                {% endfor %}
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
                                             {% endif %}
                                         </select>
                                     </div>
 
+
+                                    <label for="description" class="text-right">توضیحات:</label>
                                     <input type="text" class="form-control"
                                            aria-label="Text input with segmented dropdown button" id="description">
                                 </div>
+                                <div class="d-flex justify-row-reverse">
+                                    <form id="upload-file" method="post" enctype="multipart/form-data">
+                                        <fieldset class="mt-3">
+                                            <label for="file">Select a image</label>
+                                            <input name="file" type="file">
+
+
+                                        </fieldset>
+
+                                    </form>
+
+                                </div>
+
 
                                 <div class="d-flex justify-content-center p-4">
                                     <button
@@ -151,7 +241,19 @@
                                     </button>
                                 </div>
 
+<<<<<<< HEAD
+                                <div class="d-flex justify-content-center p-4">
+                                    <button
+                                            class="d-felx justify-center btn btn-info" id="button">ذخیره
+                                    </button>
+                                </div>
+
                         </div>
+=======
+                            </div>
+                        </div>
+
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
                     </div>
 
                 </div>
@@ -159,8 +261,22 @@
 
         </div>
 
+        <div class="row d-flex justify-content-center">
+            <table class="table text-right table-sm table-striped table-bordered">
+                <thead>
+                <th>تصویر</th>
+                <th>نام کالا</th>
+                <th>دسته بندی</th>
+                <th class="text-center"></th>
+                </thead>
+                <tbody id="product_table">
+
+                </tbody>
+            </table>
+        </div>
     </div>
 
+<<<<<<< HEAD
     <div class="row d-flex justify-content-center">
         <table class="table text-right table-sm table-striped table-bordered">
             <thead>
@@ -176,8 +292,10 @@
     </div>
 </div>
 
+=======
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
 {% endblock %}
 {% block script %}
 
-<script src="{{ url_for('static', filename='js/products.js') }}?u={{ last_updated }}"></script>
+    <script src="{{ url_for('static', filename='js/products.js') }}?u={{ last_updated }}"></script>
 {% endblock %}

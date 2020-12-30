@@ -89,7 +89,11 @@ $(document).ready(function () {
   });
 
   $.get("/api/inventory/list", function (resp) {
+<<<<<<< HEAD
     resp.forEach((product) => createRow(product));
+=======
+    resp.forEach((inventory) => createRow(inventory));
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
   });
 
   $("#add_inventory").click(function () {
@@ -115,7 +119,11 @@ $(document).ready(function () {
       },
       type: "POST",
       success: function (resp) {
+<<<<<<< HEAD
         alert(resp["result"]);
+=======
+        alert(resp[0]["result"]);
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
         $("#Modal_Edition_Inventory").modal("hide");
       }
     });
@@ -134,7 +142,11 @@ $(document).ready(function () {
         quantity: `${$("#Modal_Edition_Inventory #num_prod_add").val()}`
       },
       success: function (resp) {
+<<<<<<< HEAD
         alert(resp["result"]);
+=======
+        alert(resp[0]["result"]);
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91
         $("#Modal_Edition_Inventory").modal("hide");
         handleProductDropDwonAjax();
       }

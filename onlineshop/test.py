@@ -75,6 +75,7 @@
 # print(b@a)
 import io
 import json
+<<<<<<< HEAD
 
 from datetime import datetime
 
@@ -96,3 +97,46 @@ def return_category(filename):
 # print(return_category(r'category.json'))
 
 print(datetime.now())
+=======
+
+from datetime import datetime
+import datetime
+from bson import ObjectId
+from pymongo import MongoClient
+from persiantools.jdatetime import JalaliDateTime, JalaliDate
+from persiantools import characters, digits
+
+# def return_category(filename):
+#     li = []
+#     with io.open(filename, encoding='utf-8') as f:
+#         f = json.load(f)
+#         category = f[0]
+#         for i in range(len(category['subcategories'])):
+#             cat2 = category['name']
+#             cat2 += r'/' + category['subcategories'][i]['name']
+#             for j in range(len(category['subcategories'][0]['subcategoreis'])):
+#                 cat3 = cat2
+#                 cat3 += r'/' + category['subcategories'][i]['subcategoreis'][j]['name']
+#                 li.append(cat3)
+#                 cat3 = cat2
+#     return li
+
+# print(return_category(r'category.json'))
+
+client = MongoClient('localhost', 27017)
+db = client.online_shop
+res = list(db.basket.find())
+
+for i in res:
+    i["time_record"] = digits.en_to_fa(JalaliDate((JalaliDateTime.to_jalali(i["time_record"]))).strftime("%Y/%m/%d"))
+
+    # print(digits.en_to_fa(i["time_record"]))
+    print(i["time_record"])
+    # i["time_record"]=JalaliDate(i["time_record"]).strftime("%Y/%m/%d")
+    # print(i["time_record"])
+# b={2:1}
+#
+# a={1:2}
+# a.update({2:2})
+# print(a)
+>>>>>>> 0ded1012376848a49fcb2b95b30ab163d4e5eb91

@@ -77,9 +77,11 @@ import io
 import json
 
 from datetime import datetime
-
+import datetime
 from bson import ObjectId
 from pymongo import MongoClient
+from persiantools.jdatetime import JalaliDateTime, JalaliDate
+from persiantools import characters, digits
 
 # def return_category(filename):
 #     li = []
@@ -98,15 +100,19 @@ from pymongo import MongoClient
 
 # print(return_category(r'category.json'))
 
-# client = MongoClient('localhost', 27017)
-# db = client.online_shop
-# res = db.inventory.update_many({"_id": ObjectId('5fe81d7cc82e151f344df4a8'), "items.name_product": "shaiami"},
-#                                {"$inc": {"items.$.quantity": 1000}, "$set": {"items.$.price": 17,"items.$.date_insert":datetime.now()}})
-# print(res.modified_count)
+client = MongoClient('localhost', 27017)
+db = client.online_shop
+res = list(db.basket.find())
 
+for i in res:
+    i["time_record"] = digits.en_to_fa(JalaliDate((JalaliDateTime.to_jalali(i["time_record"]))).strftime("%Y/%m/%d"))
 
-b={2:1}
-
-a={1:2}
-a.update({2:2})
-print(a)
+    # print(digits.en_to_fa(i["time_record"]))
+    print(i["time_record"])
+    # i["time_record"]=JalaliDate(i["time_record"]).strftime("%Y/%m/%d")
+    # print(i["time_record"])
+# b={2:1}
+#
+# a={1:2}
+# a.update({2:2})
+# print(a)

@@ -10,6 +10,8 @@ from werkzeug.utils import secure_filename
 import openpyxl
 from pathlib import Path
 from datetime import datetime
+from persiantools.jdatetime import JalaliDateTime, JalaliDate
+from persiantools import characters, digits
 
 bp = Blueprint('api', __name__, url_prefix="/api")
 
@@ -47,11 +49,13 @@ def check_validation_excel(path):
             })
     return category
 
-def update(db,request):
-    res = db.inventory.update_many({"_id": ObjectId(request.form.get('_id')), "items.name_product": request.form.get('name_product')},
-                                   {"$inc": {"items.$.quantity": int(request.form.get('quantity'))},
-                                    "$set": {"items.$.price": int(request.form.get('price')), "items.$.date_insert": datetime.now()}})
-    if res.modified_count==0:
+
+def update(db, request):
+    res = db.inventory.update_many(
+        {"_id": ObjectId(request.form.get('_id')), "items.name_product": request.form.get('name_product')},
+        {"$inc": {"items.$.quantity": int(request.form.get('quantity'))},
+         "$set": {"items.$.price": int(request.form.get('price')), "items.$.date_insert": datetime.now()}})
+    if res.modified_count == 0:
         return True
     else:
         return False
@@ -83,10 +87,11 @@ def prod_add():
         # f = request.files['file']
         # f.save(r'onlineshop/uploads/' + secure_filename(f.filename))
         # print(f)
-        f=request.files['file']
+        f = request.files['file']
         f.save(r'onlineshop/static/images/' + secure_filename(f.filename))
         prob_add = {"name_product": request.form.get('product_name'), "description": request.form.get('description'),
-                    "category": request.form.get('category'), "url_image": fr"/static/images/{secure_filename(f.filename)}"}
+                    "category": request.form.get('category'),
+                    "url_image": fr"/static/images/{secure_filename(f.filename)}"}
         res = db.products.insert_one(prob_add)
 
         db = list(db.products.find({"_id": res.inserted_id}))
@@ -101,11 +106,12 @@ def prod_edit():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        f=request.files['file']
+        f = request.files['file']
         f.save(r'onlineshop/static/images/' + secure_filename(f.filename))
         db.products.update({"_id": ObjectId(request.form.get('_id'))}, {
             "$set": {"name_product": request.form.get('product_name'), "description": request.form.get('description'),
-                     "category": request.form.get('category'), "url_image": fr"/static/images/{secure_filename(f.filename)}"}})
+                     "category": request.form.get('category'),
+                     "url_image": fr"/static/images/{secure_filename(f.filename)}"}})
         res = list(db.products.find({"_id": ObjectId(request.form.get('_id'))}))
         print(res)
         for i in res:
@@ -128,7 +134,7 @@ def prod_delete(product_id):
 def upload_file_category():
     if request.method == 'POST':
 
-        f=request.files['file']
+        f = request.files['file']
         print(request.form)
         f.save(r'onlineshop/uploads/' + secure_filename(f.filename))
         try:
@@ -201,7 +207,7 @@ def inventory_edit():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        if update(db,request):
+        if update(db, request):
             db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}'),
                                  "items": {"$elemMatch": {"name_product": f'{request.form.get("name_product")}'}}},
                                 {"$set": {
@@ -212,19 +218,21 @@ def inventory_edit():
         else:
             pass
 
+
 @bp.route('inventory/add_prod', methods=('GET', 'POST'))
 def inventory_add_prod():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
-                            {"$push": {
-                                "items": {
-                                    "$each":
-                                        [{"name_product": f'{request.form.get("name_product")}',
-                                          "quantity": int(request.form.get('quantity')),
-                                          "price": int(request.form.get('price')),
-                                          "date_insert": datetime.now()}]}}})
+        if update(db, request):
+            db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
+                                {"$push": {
+                                    "items": {
+                                        "$each":
+                                            [{"name_product": f'{request.form.get("name_product")}',
+                                              "quantity": int(request.form.get('quantity')),
+                                              "price": int(request.form.get('price')),
+                                              "date_insert": datetime.now()}]}}})
 
         return jsonify([{"result": "update succsesfully"}, request.form])
 
@@ -265,13 +273,13 @@ def quantity_list():
     return jsonify(res)
 
 
-@bp.route('quantity/quantity_add',methods=('GET', 'POST'))
+@bp.route('quantity/quantity_add', methods=('GET', 'POST'))
 def quantity_add():
     client = MongoClient('localhost', 27017)
     db = client.online_shop
-    name_inventory=list(db.inventory.find({"_id": ObjectId(f'{request.form.get("_id")}')},{"name_inventory":1}))
-    if update(db,request):
-        res={'result':False}
+    name_inventory = list(db.inventory.find({"_id": ObjectId(f'{request.form.get("_id")}')}, {"name_inventory": 1}))
+    if update(db, request):
+        res = {'result': False}
         db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
                             {"$push": {
                                 "items": {
@@ -279,13 +287,29 @@ def quantity_add():
                                         [{"name_product": f'{request.form.get("name_product")}',
                                           "quantity": int(request.form.get('quantity')),
                                           "price": int(request.form.get('price')),
-                                          "date_insert":datetime.now()
-                                         }]}}})
+                                          "date_insert": datetime.now()
+                                          }]}}})
     else:
         res = {'result': True}
     for i in name_inventory:
-        i["_id"]=str(i["_id"])
+        i["_id"] = str(i["_id"])
     res.update(name_inventory[0])
     res.update(request.form)
     return jsonify(res)
+
+
+
+@bp.route('/order/list')
+def order_list():
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    res=list(db.basket.find())
+    for i in res:
+        i["_id"]=str(i["_id"])
+        i["time_record"] = digits.en_to_fa(
+        JalaliDate((JalaliDateTime.to_jalali(i["time_record"]))).strftime("%Y/%m/%d"))
+        i["total_costs"]=digits.en_to_fa(str(i["total_costs"]))
+        i["time_give"] = digits.en_to_fa(
+            JalaliDate((JalaliDateTime.to_jalali(i["time_give"]))).strftime("%Y/%m/%d"))
+    return jsonify(list(res))
 

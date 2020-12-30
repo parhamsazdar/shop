@@ -20,12 +20,12 @@ def create_app(test_config=None):
         return "Hello, World!"
 
     # register the database commands
-    from onlineshop import manager,products,api
+    from onlineshop import manager,products,api,test2
 
     app.register_blueprint(manager.bp)
     app.register_blueprint(products.bp)
     app.register_blueprint(api.bp)
-
+    app.register_blueprint(test2.bp)
 
 
 

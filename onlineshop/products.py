@@ -15,7 +15,8 @@ def index():
 
 
 
-@bp.route('/category/؟name=<category_name>')
+@bp.route('/category/?name=<category_name>',methods=['GET','POST'])
+@bp.route('/category/')
 def category():
     return render_template('template_masroori/new_products.html')
 
@@ -23,9 +24,8 @@ def category():
 
 
 @bp.route('/product/<product_id>')
-def product():
-
-    pass
+def product(product_id):
+    return render_template('template_masroori/new_products.html')
 
 @bp.route('/cart')
 def cart():

@@ -13,8 +13,6 @@ def index():
 
 
 
-
-
 @bp.route('/category/؟name=<category_name>')
 def category():
     pass
@@ -24,18 +22,21 @@ def category():
 
 @bp.route('/product/<product_id>')
 def product():
-
     pass
+
+
 
 @bp.route('/cart')
 def cart():
     return render_template('basket/basket.html')
 
 
+
+
 @bp.route('/cart/approve')
 def cart_approve():
     return render_template('basket/checkout.html')
-#
+
 
 
 

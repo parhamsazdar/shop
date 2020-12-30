@@ -7,10 +7,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
         integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-
-<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
-
-
+</head>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="css_fonts.css">
 <title>Document</title>
 </head>
 
@@ -43,8 +42,7 @@
             </ul>
         </div>
         <div>
-            <a href="{{ url_for('products.index')}}" >بازگشت به سایت</a>
-            <a href="{{ url_for('manager.logout')}}" style="margin-right: 20px">خروج</a>
+            <a href="{{ url_for('manager.logout')}}">بازگشت به سایت</a>
         </div>
 
     </nav>
@@ -53,22 +51,14 @@
 
     {% block content %}{% endblock %}
 
-
     <!-- jQuery library -->
-    <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-
-    <script src="{{ url_for('static', filename='js/Popper.js') }}"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
     <!-- Latest compiled JavaScript -->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-
-
-
-    {% block script %}
-
-    {% endblock %}
-
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 
 </html>

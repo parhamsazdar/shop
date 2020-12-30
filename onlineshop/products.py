@@ -7,10 +7,7 @@ bp=Blueprint('products',__name__)
 
 @bp.route('/')
 def index():
-
-    return render_template('index.html')
-
-
+    return render_template('index/index.html')
 
 
 
@@ -18,25 +15,28 @@ def index():
 
 @bp.route('/category/؟name=<category_name>')
 def category():
-    pass
+    return render_template('template_masroori/new_products.html')
 
 
 
 
 @bp.route('/product/<product_id>')
 def product():
-
     pass
+
+
 
 @bp.route('/cart')
 def cart():
     return render_template('basket/basket.html')
 
 
+
+
 @bp.route('/cart/approve')
 def cart_approve():
     return render_template('basket/checkout.html')
-#
+
 
 
 

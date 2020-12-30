@@ -40,10 +40,10 @@ $(document).ready(function () {
     txt2 += `<a class='h4'>${cat['subcategories'][0]['name']}</a>`
     txt2 += " <ul class='list-unstyled'>"
     txt2 += "<li class='h5'>"
-    txt2 +=   `<a href='#'>${cat['subcategories'][1]['name']}</a>`
+    txt2 +=   `<a href='#'>${cat.subcategories[0]['subcategories']}</a>`
     txt2 +=" </li>"
     txt2 +=  "<li class='h4'>"
-    txt2 +=   "<a href='#'>شیر</a>"
+    // txt2 +=   `<a href='#'>${cat.subcategories['subcategories'].name}</a>`
     txt2 += "</li>"
     txt2 += "</ul>"
 

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+    <title>Document</title>
+</head>
+
+<body dir="rtl">
+
+<nav class="navbar navbar-expand-sm bg-light justify-content-between">
+    <div class="d-flex">
+        <img class="w-25" src="../../static/images/logo-shop.png">
+        <h2>فروشگاه فلان</h2>
+    </div>
+    <div>
+        <a class="navbar-brand" href="{{ url_for('manager.login') }}">مدیریت</a>
+        <a class="navbar-brand" href="{{ url_for('products.cart') }}"><i class="fa fa-shopping-cart"
+                                                                         aria-hidden="true"></i>سبد خرید</a>
+    </div>
+</nav>
+
+<div dir="rtl">
+    {% block content %}{% endblock %}
+</div>
+
+<!-- jQuery library -->
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js/Popper.js') }}"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+
+
+{% block script %}
+
+{% endblock %}
+
+</body>
+
+</html>

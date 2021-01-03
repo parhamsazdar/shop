@@ -79,6 +79,10 @@ import json
 from datetime import datetime
 import datetime
 from bson import ObjectId
+<<<<<<< HEAD
+=======
+from flask import session
+>>>>>>> 507abe23b5614082b0284863b387328d301cb070
 from pymongo import MongoClient
 from persiantools.jdatetime import JalaliDateTime, JalaliDate
 from persiantools import characters, digits
@@ -102,6 +106,7 @@ from persiantools import characters, digits
 
 client = MongoClient('localhost', 27017)
 db = client.online_shop
+<<<<<<< HEAD
 res = list(db.basket.find())
 
 for i in res:
@@ -116,3 +121,29 @@ for i in res:
 # a={1:2}
 # a.update({2:2})
 # print(a)
+=======
+# res = list(db.inventory.aggregate(
+#     [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": "Lg"}}, {"$sort": {"items.price": 1}},
+#      {"$limit": 1}]))
+# print(res)
+#
+# li=[{"name_product": "Lg", "quantity": 3}, {"name_product": "Apple", "quantity": 3}]
+# # li=list(filter(lambda x:del x if x['name_product']=="Lg",li))
+# li=list(filter(lambda x:x["name_product"]!="Lg",li))
+#
+# print(li)
+
+# li=[i for i in li if i["name_product"]!="Lg"]
+# print(li)
+# li=list(map(lambda x:li.remove(x),filter(lambda x:x["name_product"]=="Lg",li)))
+# print(li)
+# import datetime
+# a='2011-09-09T13:45'
+# # print(datetime.datetime(2011,09,09))
+# a=datetime.datetime.fromisoformat(a)
+# print(type(a))
+
+a='ali'
+if a.startswith('ali'):
+    print(2)
+>>>>>>> 507abe23b5614082b0284863b387328d301cb070

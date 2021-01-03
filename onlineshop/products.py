@@ -20,9 +20,16 @@ def category():
 
 
 
-@bp.route('/product/<product_id>')
+@bp.route('/product/')
 def product():
+<<<<<<< HEAD
     pass
+=======
+    return render_template('index/inventory.html')
+
+
+
+>>>>>>> 507abe23b5614082b0284863b387328d301cb070
 
 
 
@@ -35,6 +42,7 @@ def cart():
 
 @bp.route('/cart/approve')
 def cart_approve():
+    print(request.args)
     return render_template('basket/checkout.html')
 
 

@@ -20,9 +20,10 @@ def category():
 
 
 
-@bp.route('/product/<product_id>')
+@bp.route('/product/')
 def product():
-    pass
+    return render_template('index/inventory.html')
+
 
 
 
@@ -35,6 +36,7 @@ def cart():
 
 @bp.route('/cart/approve')
 def cart_approve():
+    print(request.args)
     return render_template('basket/checkout.html')
 
 

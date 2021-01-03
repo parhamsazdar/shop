@@ -5,7 +5,14 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e25694c9-bef9-4118-967f-e87a81dd2525" name="Default Changelist" comment="" />
+    <list default="true" id="e25694c9-bef9-4118-967f-e87a81dd2525" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onlineshop/api.py" beforeDir="false" afterPath="$PROJECT_DIR$/onlineshop/api.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onlineshop/products.py" beforeDir="false" afterPath="$PROJECT_DIR$/onlineshop/products.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onlineshop/templates/index/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/onlineshop/templates/index/base.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onlineshop/templates/index/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/onlineshop/templates/index/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/onlineshop/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/onlineshop/test.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,6 +30,12 @@
   </component>
   <component name="PropertiesComponent">
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -56,7 +69,7 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/shop$parham.coverage" NAME="parham Coverage Results" MODIFIED="1608145083492" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$USER_HOME$/Downloads" />
     <SUITE FILE_PATH="coverage/maktab_GROUP_5$test.coverage" NAME="test Coverage Results" MODIFIED="1607953227946" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/onlineshop" />
-    <SUITE FILE_PATH="coverage/shop$test.coverage" NAME="test Coverage Results" MODIFIED="1609325641636" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/onlineshop" />
+    <SUITE FILE_PATH="coverage/shop$test.coverage" NAME="test Coverage Results" MODIFIED="1609669898594" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/onlineshop" />
     <SUITE FILE_PATH="coverage/shop$__init__.coverage" NAME="__init__ Coverage Results" MODIFIED="1608566517372" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/onlineshop" />
     <SUITE FILE_PATH="coverage/shop$products.coverage" NAME="products Coverage Results" MODIFIED="1608566509865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/onlineshop" />
   </component>

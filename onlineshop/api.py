@@ -298,35 +298,31 @@ def quantity_add():
     return jsonify(res)
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 507abe23b5614082b0284863b387328d301cb070
 @bp.route('/order/list')
 def order_list():
     client = MongoClient('localhost', 27017)
     db = client.online_shop
-<<<<<<< HEAD
+
     res=list(db.basket.find())
     for i in res:
         i["_id"]=str(i["_id"])
         i["time_record"] = digits.en_to_fa(
         JalaliDate((JalaliDateTime.to_jalali(i["time_record"]))).strftime("%Y/%m/%d"))
         i["total_costs"]=digits.en_to_fa(str(i["total_costs"]))
-=======
+
     res = list(db.basket.find())
     for i in res:
         i["_id"] = str(i["_id"])
         i["time_record"] = digits.en_to_fa(
             JalaliDate((JalaliDateTime.to_jalali(i["time_record"]))).strftime("%Y/%m/%d"))
         i["total_costs"] = digits.en_to_fa(str(i["total_costs"]))
->>>>>>> 507abe23b5614082b0284863b387328d301cb070
+
         i["time_give"] = digits.en_to_fa(
             JalaliDate((JalaliDateTime.to_jalali(i["time_give"]))).strftime("%Y/%m/%d"))
     return jsonify(list(res))
 
-<<<<<<< HEAD
-=======
+
+
 
 @bp.route('/basket/list')
 def basket_list():
@@ -387,4 +383,4 @@ def record_form():
         session['basket']=[]
         print(session.get('basket'))
         return request.form
->>>>>>> 507abe23b5614082b0284863b387328d301cb070
+

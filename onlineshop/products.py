@@ -22,14 +22,10 @@ def category():
 
 @bp.route('/product/')
 def product():
-<<<<<<< HEAD
-    pass
-=======
     return render_template('index/inventory.html')
 
 
 
->>>>>>> 507abe23b5614082b0284863b387328d301cb070
 
 
 

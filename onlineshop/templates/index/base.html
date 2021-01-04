@@ -22,7 +22,14 @@
         </div>
         <div>
             <a class="navbar-brand" href="{{ url_for('manager.login') }}">مدیریت</a>
-            <a class="navbar-brand" href="{{ url_for('products.cart') }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>سبد خرید</a>
+            <a class="navbar-brand" href="{{ url_for('products.cart') }}">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="badge rounded-pill badge-success bg-success" style="display: none" id="badge">0</span>
+
+
+                سبد خرید
+
+            </a>
         </div>
     </nav>
 

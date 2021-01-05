@@ -37,7 +37,7 @@
 
                     <ul class="list-unstyled components mb-5" id="list_right">
                         <li class="active">
-                            <a class="h4">{{key}}</a>
+                            <a class="h4" href="{{url_for('products.category',category_name=key)}}">{{key}}</a>
 
                             <ul class="list-unstyled">
                                 {% for j in val %}
@@ -63,33 +63,23 @@
                 <div class="col-12 p-2">
                     <h2 onclick="" id="{{category_name}}">کالاهای گروه {{category_name}}</h2>
                 </div>
-                <div class="row justify-content-around" id="box_product">
-                    <!-- <div
-                        class="d-flex flex-row-reverse  m-3 align-items-center justify-content-around col-lg-4 col-5 col-sm-8 col-md-5 border">
-                        <div>
-                            <h5 id="name_product">dfdfdf</h5>
-                            <h2 id="price_product">dfdff</h2>
-                        </div>
-                        <div>
-                            <img src="" alt="..">
-                        </div>
-                    </div> -->
-
-                </div>
 
 
-                <div class="row justify-content-around" id="jj">
-                    {% for items in values %}
-                    <div
-                            class="d-flex flex-row-reverse  m-3 align-items-center justify-content-around col-lg-4 col-5 col-sm-8 col-md-5 border">
+                <div class="row justify-content-around">
+                    {% for items in lis_show %}
+
+
+                    <a class="d-flex m-3 justify-content-between align-items-center col-lg-3 col-5 col-sm-8 col-md-5 pr-0 border"
+                       style="display:inline" href="{{url_for('products.product',product_id=items[3])}}">
                         <div>
-                            <h5 id="name_product">{{values}}</h5>
-                            <h2 id="price_product">{{items}}</h2>
+                            <img src="{{items[2]}}" alt="Img Not Found!" width="100px">
                         </div>
-                        <div>
-                            <img src="items" alt="..">
+                        <div class="text-center">
+                            <h5 id="name_product">{{items[0]}}</h5>
+                            <h4 id="price_product">{{items[1]}} تومان</h4>
                         </div>
-                    </div>
+                    </a>
+
                     {% endfor %}
 
                 </div>
@@ -112,6 +102,6 @@
 
 <!-- Latest compiled JavaScript -->
 <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-<script src="{{ url_for('static', filename='js/new_products.js') }}?u={{ last_updated }}"></script>
+<!--<script src="{{ url_for('static', filename='js/new_products.js') }}?u={{ last_updated }}"></script>-->
 <!-- ?u={{ last_updated }} -->
 </body>

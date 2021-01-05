@@ -40,10 +40,10 @@
         </div>
         <div class="row justify-content-center">
             {% for j in val %}
-            <a class="d-flex m-3 justify-content-beetwen align-items-center col-lg-3 col-5 col-sm-8 col-md-5 pr-0 border"
+            <a class="d-flex m-3 justify-content-between align-items-center col-lg-3 col-5 col-sm-8 col-md-5 pr-0 border"
                style="display:inline" href="{{url_for('products.product',product_id=j[3])}}">
                 <div>
-                    <img src="{{j[0]}}" alt=".." width="100px">
+                    <img src="{{j[0]}}" alt="Img Not Found!" width="100px">
                 </div>
                 <div class="text-center">
                     <h5 id="name_product">{{j[1]}}</h5>
@@ -58,6 +58,14 @@
 
 </div>
 
+<footer class="bg-light text-center text-lg-start">
+  <!-- Copyright -->
+  <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+    © 2020 Copyright:
+    <a class="text-dark" href="#">فروشگاه فلان</a>
+  </div>
+  <!-- Copyright -->
+</footer>
 
 <!-- jQuery library -->
 <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>

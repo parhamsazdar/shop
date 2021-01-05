@@ -18,7 +18,7 @@ bp = Blueprint('test2', __name__, url_prefix="/test2")
 def latest_products():
     client = MongoClient('localhost', 27017)
     db = client.online_shop
-    latest_products = list(db.inventory.find())
+    latest_products = list(db.inventory.find({}))
     # lis_products = db.products.find()
     lis = []
     lis_names = []
@@ -28,7 +28,7 @@ def latest_products():
     for item in lis:
         for j in item:
             lis_names.append((j["name_product"],j["price"]))
-         
+
         # i["_id"] = str(i["_id"])
     return jsonify(lis_names)
 
@@ -46,3 +46,24 @@ def products_url():
     else:
         return jsonify('not found')
 
+# from pymongo import MongoClient
+#
+# client = MongoClient('localhost', 27017)
+# db = client.online_shop
+# send_data = {}
+# data = {"تلفن همراه": [], "لپ تاپ": [], "تلویزیون": []}
+# latest_products = list(db.inventory.aggregate([
+#     {"$unwind": {"path": "$items"}}]))
+# for var in latest_products:
+#     name = send_data['name_product'] = var["items"]["name_product"]
+#     send_data['quantity'] = var["items"]["quantity"]
+#     send_data['date_insert'] = var["items"]["date_insert"]
+#     send_data['price'] = var["items"]["price"]
+#     send_data['id_product'] = var["_id"]
+#     cli = list(db.products.find({"name_product": name}))
+#     print(cli)
+#     send_data['url_image'] = cli[0]['url_image']
+#     send_data['cat'] = cli[0]['category']
+#     print("--------->",name)
+#     print("--------->",send_data['quantity'])
+#     print("--------->",send_data['date_insert'])

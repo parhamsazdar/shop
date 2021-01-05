@@ -2,119 +2,116 @@
 
 
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
-	<title>new_products</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <title>new_products</title>
 </head>
 
 <body dir="rtl" class="text-right">
 
-	<nav class="navbar navbar-expand-sm bg-light justify-content-between">
-		<div class="d-flex">
-			<img class="w-25" src="../../static/images/logo-shop.png">
-			<h2>فروشگاه فلان</h2>
-		</div>
-		<div>
-			<a class="navbar-brand" href="#">مدیریت</a>
-			<a class="navbar-brand" href="basket.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i>سبد
-				خرید</a>
-		</div>
-	</nav>
+<nav class="navbar navbar-expand-sm bg-light justify-content-between">
+    <div class="d-flex">
+        <img class="w-25" src="../../static/images/logo-shop.png">
+        <h2>فروشگاه فلان</h2>
+    </div>
+    <div>
+        <a class="navbar-brand" href="{{ url_for('manager.manage_panel') }}">مدیریت</a>
+        <a class="navbar-brand" href="basket.html"><i class="fa fa-shopping-cart" aria-hidden="true"></i>سبد
+            خرید</a>
+    </div>
+</nav>
 
-	<div class="container-fluid pr-0">
-		<div class="row flex-nowrap">
-			<div class="col-4 d-flex border-left">
-				<nav class="">
+<div class="container-fluid pr-0">
+    <div class="row flex-nowrap">
+        <div class="col-4 d-flex border-left">
+            <nav class="">
 
-					<div class="p-2 pt-4 pl-4">
-						<ul class="list-unstyled components mb-5" id="list_right">
-							<li class="active">
-								<a class="h4">کالاهای اساسی خوار و بار</a>
-								<ul class="list-unstyled">
-									<li class="h5">
-										<a href="#">کره</a>
-									</li>
-									<li class="h4">
-										<a href="#">شیر</a>
-									</li>
-								</ul>
+                <div class="p-2 pt-4 pl-4">
 
-							</li>
-							<li class="active">
-								<a class="h4">لبنیات</a>
-								<ul class="list-unstyled">
-									<li class="h5">
-										<a href="#">کره</a>
-									</li>
-									<li class="h4">
-										<a href="#">شیر</a>
-									</li>
-								</ul>
+                    {% for key,val in lis_prod.items() %}
 
-							</li>
-							<li class="active">
-								<a class="h4">کالاهای اساسی خوار و بار</a>
-								<ul class="list-unstyled">
-									<li class="h5">
-										<a href="#">کره</a>
-									</li>
-									<li class="h4">
-										<a href="#">شیر</a>
-									</li>
-								</ul>
+                    <ul class="list-unstyled components mb-5" id="list_right">
+                        <li class="active">
+                            <a class="h4">{{key}}</a>
 
-							</li>
+                            <ul class="list-unstyled">
+                                {% for j in val %}
+                                <li class="h5">
+                                    <a href="#">{{j}}</a>
+                                </li>
+                                {% endfor %}
+                            </ul>
 
-						</ul>
+                        </li>
 
-					</div>
-				</nav>
-			</div>
+                    </ul>
+                    {% endfor %}
 
 
-			<div class="col-8 container">
-				<div>
-					<div class="col-12 p-2">
-						<h2 id="group_product">کالاهای گروه فلان</h2>
-					</div>
-					<div class="row justify-content-around" id="box_product">
-						<!-- <div
-							class="d-flex flex-row-reverse  m-3 align-items-center justify-content-around col-lg-4 col-5 col-sm-8 col-md-5 border">
-							<div>
-								<h5 id="name_product">dfdfdf</h5>
-								<h2 id="price_product">dfdff</h2>
-							</div>
-							<div>
-								<img src="" alt="..">
-							</div>
-						</div> -->
-
-					</div>
-
-				</div>
+                </div>
+            </nav>
+        </div>
 
 
+        <div class="col-8 container">
+            <div>
+                <div class="col-12 p-2">
+                    <h2 onclick="" id="{{category_name}}">کالاهای گروه {{category_name}}</h2>
+                </div>
+                <div class="row justify-content-around" id="box_product">
+                    <!-- <div
+                        class="d-flex flex-row-reverse  m-3 align-items-center justify-content-around col-lg-4 col-5 col-sm-8 col-md-5 border">
+                        <div>
+                            <h5 id="name_product">dfdfdf</h5>
+                            <h2 id="price_product">dfdff</h2>
+                        </div>
+                        <div>
+                            <img src="" alt="..">
+                        </div>
+                    </div> -->
 
-			</div>
-
-		</div>
-
-	</div>
+                </div>
 
 
-    <!-- jQuery library -->
-    <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+                <div class="row justify-content-around" id="jj">
+                    {% for items in values %}
+                    <div
+                            class="d-flex flex-row-reverse  m-3 align-items-center justify-content-around col-lg-4 col-5 col-sm-8 col-md-5 border">
+                        <div>
+                            <h5 id="name_product">{{values}}</h5>
+                            <h2 id="price_product">{{items}}</h2>
+                        </div>
+                        <div>
+                            <img src="items" alt="..">
+                        </div>
+                    </div>
+                    {% endfor %}
+
+                </div>
+
+            </div>
 
 
-    <script src="{{ url_for('static', filename='js/Popper.js') }}"></script>
+        </div>
 
-    <!-- Latest compiled JavaScript -->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
-	<script src="{{ url_for('static', filename='js/new_products.js') }}?u={{ last_updated }}"></script>
-	<!-- ?u={{ last_updated }} -->
+    </div>
+
+</div>
+
+
+<!-- jQuery library -->
+<script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
+
+
+<script src="{{ url_for('static', filename='js/Popper.js') }}"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/new_products.js') }}?u={{ last_updated }}"></script>
+<!-- ?u={{ last_updated }} -->
 </body>

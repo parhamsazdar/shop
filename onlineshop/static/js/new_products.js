@@ -27,32 +27,10 @@ $(document).ready(function () {
   }
 
   $.get("/test2/category/list", function (resp) {
+  // parameter
     console.log(resp);
     console.log("iman masroori");
     resp.forEach((product) => createRow(product));
   });
 
-  function category_sidbar(cat) {
-    $("#list_right").empty();
-    console.log("-------------------",cat)
-    txt2 = '';
-    txt2 += "<li class='active'>"
-    txt2 += `<a class='h4'>${cat['subcategories'][0]['name']}</a>`
-    txt2 += " <ul class='list-unstyled'>"
-    txt2 += "<li class='h5'>"
-    txt2 +=   `<a href='#'>${cat['subcategories'][1]['name']}</a>`
-    txt2 +=" </li>"
-    txt2 +=  "<li class='h4'>"
-    txt2 +=   "<a href='#'>شیر</a>"
-    txt2 += "</li>"
-    txt2 += "</ul>"
-
-    txt2 += "</li>"
-    $("#list_right").append(txt2);
-  }
-  $.get("/api/product/json_category", function (resp) {
-    console.log(resp);
-    console.log("iman masroori");
-    resp.forEach((cat) => category_sidbar(cat));
-  });
 });

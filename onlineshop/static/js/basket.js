@@ -1,6 +1,7 @@
 $(document).ready(function () {
   var $tbody = $("#basket");
   var totalCoast = 0;
+  var $badge = $('#badge')
 
   function createRow(inventory) {
     var name_product = inventory.items.name_product;
@@ -48,8 +49,9 @@ $(document).ready(function () {
           },
           success: function (resp) {
             $tr.remove();
+            $badge.html(parseInt($badge.html())-1)
             $totalCoast.html(
-              `${parseInt($totalCoast.text()) - product.items.price}`
+              `${parseInt($totalCoast.text()) - product.items.price * product.quantity}`
             );
           }
         });

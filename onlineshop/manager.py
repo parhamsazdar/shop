@@ -61,6 +61,7 @@ def register():
 
             return redirect(url_for('manager.manage_panel'))
         else:
+            flash("نام کاربری یا رمز عبور اشتباه است")
             return render_template('manager/login.html')
 
 

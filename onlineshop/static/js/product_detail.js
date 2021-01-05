@@ -16,7 +16,7 @@ $(document).ready(function () {
                 },
                 success: function (resp) {
                     $number.attr('max', $max - $number.val())
-                    $badge.html($number.val() + $badge.val())
+                    $badge.html(parseInt($badge.html())+1)
                     $badge.show()
                     alert(resp['result'])
                 }

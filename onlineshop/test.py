@@ -1,5 +1,9 @@
+import functools
+
 from bson import ObjectId
+from flask import url_for
 from pymongo import MongoClient
+from werkzeug.utils import redirect
 
 client = MongoClient('localhost', 27017)
 db = client.online_shop
@@ -24,3 +28,15 @@ y = list(db.inventory.aggregate(
 #      "description": res[0]["descrption"]}
 
 # print(y)
+
+def login_required(view):
+    """View decorator that redirects anonymous users to the login page."""
+
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        client = MongoClient('localhost', 27017)
+        db = client.online_shop
+
+        return view(**kwargs)
+
+    return wrapped_view

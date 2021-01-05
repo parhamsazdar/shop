@@ -1,3 +1,4 @@
+import functools
 import json
 import os
 
@@ -407,4 +408,3 @@ def add_to_basket():
         update_reverse(db, request)
         session['bug'] = None
         return {"result": "کالای مورد نظر به سبد خرید شما اضافه شد"}
-

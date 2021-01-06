@@ -1,7 +1,6 @@
 import functools
 import json
 import os
-
 from bson import ObjectId
 from flask import Blueprint, url_for, session, request, render_template, redirect, g, flash, jsonify
 from pymongo import MongoClient

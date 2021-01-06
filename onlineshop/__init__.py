@@ -5,7 +5,6 @@ def create_app(test_config=None):
     """Create and configure an instance of the Flask application."""
     app = Flask(__name__, instance_relative_config=True)
 
-
     if test_config is None:
         # load the instance config, if it exists, when not testing
         app.config.from_pyfile("config.py", silent=True)
@@ -15,19 +14,12 @@ def create_app(test_config=None):
 
     # ensure the instance folder exists
 
-    @app.route("/hello")
-    def hello():
-        return "Hello, World!"
-
     # register the database commands
-    from onlineshop import manager,products,api
-
+    from onlineshop import manager, products, api
+    # register the blueprints
     app.register_blueprint(manager.bp)
     app.register_blueprint(products.bp)
     app.register_blueprint(api.bp)
-
-
-
 
     # db.init_app(app)
 

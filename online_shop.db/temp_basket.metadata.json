@@ -1,1 +1,1 @@
-{"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_"}],"uuid":"d2400fe4a90448e8a88e09a02b8334f2","collectionName":"temp_basket"}
+{"options":{},"indexes":[{"v":2,"key":{"_id":1},"name":"_id_","ns":"online_shop.temp_basket"}],"uuid":"4275acc347e54deb889bcd7a224a50a3"}

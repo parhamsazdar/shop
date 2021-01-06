@@ -8,19 +8,15 @@ from .manager import return_category
 bp = Blueprint('products', __name__)
 
 
-
-
 def cheep(name):
     client = MongoClient('localhost', 27017)
     db = client.online_shop
     y = list(db.inventory.aggregate(
-        [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name}"}},
+        [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name}", "items.quantity": {"$gt": 0}}},
          {"$sort": {"items.price": 1}},
          {"$limit": 1}]))
 
     return y[0]["items"]["name_product"], y[0]["name_inventory"]
-
-
 
 
 @bp.route('/')
@@ -32,6 +28,8 @@ def index():
         {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
     data = {"گوشی": [], "لپ تاپ": [], "TV": []}
     for var in latest_products:
+
+        # if var
         send_data = {}
         send_data['price'] = var["items"]["price"]
         name = send_data['name_product'] = var["items"]["name_product"]
@@ -45,15 +43,19 @@ def index():
 
             if 'گوشی' in send_data['cat']:
                 data['گوشی'].append(
-                    [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
+                    [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
+                     send_data['id_product']])
             elif 'لپ تاپ' in send_data['cat']:
                 data['لپ تاپ'].append(
-                    [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
+                    [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
+                     send_data['id_product']])
             elif 'TV' in send_data['cat']:
                 data['TV'].append(
-                    [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
-
+                    [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
+                     send_data['id_product']])
+    print("data00000000000000000000000", len(data["گوشی"]))
     data = {'گوشی': data['گوشی'][0:6], 'لپ تاپ': data['لپ تاپ'][0:6], 'TV': data['TV'][0:6]}
+    print("data111111111111111111111111", len(data['گوشی']))
     return render_template('index/index.html', data=data)
 
 
@@ -73,9 +75,10 @@ def category(category_name):
         send_data['url_image'] = cli[0]['url_image']
         send_data['id_product'] = cli[0]['_id']
         send_data['cat'] = cli[0]['category']
-        if category_name in send_data['cat']:
+        cheep_name, cheep_inv = cheep(name)
+        if category_name in send_data['cat'] and cheep_name== name and cheep_inv == var['name_inventory']:
             lis_show.append(
-                [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
+                [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'], send_data['id_product']])
 
     category_name = category_name
     lis = return_category(r'onlineshop/category.json')
@@ -96,7 +99,6 @@ def category(category_name):
                            category_name=category_name, lis_show=lis_show)
 
 
-
 @bp.route('/product/<product_id>')
 def product(product_id):
     client = MongoClient('localhost', 27017)
@@ -108,22 +110,19 @@ def product(product_id):
          {"$sort": {"items.price": 1}},
          {"$limit": 1}]))
 
-    config_product = {"inventory_id": str(inventory[0]["_id"]), "price": inventory[0]["items"]["price"],
+    config_product = {"inventory_id": str(inventory[0]["_id"]), "price": f'{inventory[0]["items"]["price"]:,}',
                       "quantity": inventory[0]["items"]["quantity"],
                       "name_product": product[0]["name_product"], "category": product[0]["category"],
                       "url_image": product[0]["url_image"],
 
                       "description": product[0]["description"]}
-    print("+========================",config_product)
+    print("+========================", config_product)
     return render_template('index/product.html', config=config_product)
     # return render_template('template_masroori/new_products.html')
 
 
-
-
 @bp.route('/cart')
 def cart():
-
     return render_template('basket/basket.html')
 
 

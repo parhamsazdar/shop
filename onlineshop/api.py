@@ -277,6 +277,7 @@ def quantity_list():
     res = list(db.inventory.aggregate([{"$unwind": {"path": "$items"}}]))
     for i in res:
         i["_id"] = str(i["_id"])
+        i["items"]["price"] = f'{i["items"]["price"]:,}'
     return jsonify(res)
 
 
@@ -298,8 +299,11 @@ def quantity_add():
                                           }]}}})
     else:
         res = {'result': True}
+
     for i in name_inventory:
         i["_id"] = str(i["_id"])
+
+
     res.update(name_inventory[0])
     res.update(request.form)
     return jsonify(res)
@@ -315,14 +319,16 @@ def order_list():
         i["_id"] = str(i["_id"])
         i["time_record"] = digits.en_to_fa(
             JalaliDate((JalaliDateTime.to_jalali(i["time_record"]))).strftime("%Y/%m/%d"))
-        i["total_costs"] = digits.en_to_fa(str(i["total_costs"]))
+        # i["total_costs"] = digits.en_to_fa(str(i["total_costs"]))
+        i["total_costs"] = f"{i['total_costs']:,}"
 
     res = list(db.basket.find())
     for i in res:
         i["_id"] = str(i["_id"])
         i["time_record"] = digits.en_to_fa(
             JalaliDate((JalaliDateTime.to_jalali(i["time_record"]))).strftime("%Y/%m/%d"))
-        i["total_costs"] = digits.en_to_fa(str(i["total_costs"]))
+        # i["total_costs"] = digits.en_to_fa(str(i["total_costs"]))
+        i["total_costs"] = f"{i['total_costs']:,}"
 
         i["time_give"] = digits.en_to_fa(
             JalaliDate((JalaliDateTime.to_jalali(i["time_give"]))).strftime("%Y/%m/%d"))
@@ -333,7 +339,7 @@ def order_list():
 def basket_list():
     client = MongoClient('localhost', 27017)
     db = client.online_shop
-    print("1111111111111111111111111111111111", session.get('basket'))
+
     x = session['basket']
 
     res = []
@@ -346,6 +352,7 @@ def basket_list():
         res[i].update({"quantity": f"{x[i]['quantity']}"})
     for i in res:
         i["_id"] = str(i["_id"])
+
     return jsonify(res)
 
 
@@ -377,6 +384,7 @@ def record_form():
             "time_record": datetime.now(),
             "phone": int(request.form['phone']),
             "total_costs": int(request.form['totalCoast']),
+            "address": request.form['address'],
             "items": []
         }
         products = {i: request.form[i].split(',') for i in request.form if i.startswith('product')}
@@ -397,17 +405,17 @@ def add_to_basket():
         if basket is None:
             # basket = []
             session['basket'] = []
-        # for product in session['basket']:
-        #     if product["name_product"] == request.form['name_product']:
-        #         product["quantity"] = int(product["quantity"]) + int(request.form['quantity'])
-        #         add = True
-        #         break
+        for product in session['basket']:
+            if product["name_product"] == request.form['name_product']:
+                product["quantity"] = int(product["quantity"]) + int(request.form['quantity'])
+                add = True
+                break
         if add is False:
             session.get('basket').append(
                 {"name_product": request.form["name_product"], "quantity": request.form["quantity"]})
-        print("222222222222222222222222222222222",session.get('basket'))
+
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        # update_reverse(db, request)
+        update_reverse(db, request)
         session['bug'] = None
         return {"result": "کالای مورد نظر به سبد خرید شما اضافه شد"}

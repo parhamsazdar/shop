@@ -1,6 +1,3 @@
-import io
-import json
-
 from flask import Blueprint, url_for, session, request, render_template, redirect, g, flash, jsonify
 from pymongo import MongoClient
 
@@ -16,43 +13,40 @@ def cheep(name):
         [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name}"}},
          {"$sort": {"items.price": 1}},
          {"$limit": 1}]))
-    print("yyyyyyyyyyyyyyyyyy",y)
-    return y[0]["items"]["name_product"],y[0]["name_inventory"]
+
+    return y[0]["items"]["name_product"], y[0]["name_inventory"]
 
 
 @bp.route('/')
 def index():
     client = MongoClient('localhost', 27017)
     db = client.online_shop
-    send_data = {}
-    data = {"گوشی": [], "لپ تاپ": [], "TV": []}
+
     latest_products = list(db.inventory.aggregate([
-        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": 1}}]))
+        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
+    data = {"گوشی": [], "لپ تاپ": [], "TV": []}
     for var in latest_products:
+        send_data = {}
         send_data['price'] = var["items"]["price"]
         name = send_data['name_product'] = var["items"]["name_product"]
-        print("namenamenmename", name)
-        print("varvarvarvar", var)
-        cheep_name,cheep_inv = cheep(name)
+        cheep_name, cheep_inv = cheep(name)
         if name == cheep_name and var["name_inventory"] == cheep_inv:
 
             cli = list(db.products.find({"name_product": name}))
-            print(cli)
             send_data['url_image'] = cli[0]['url_image']
             send_data['id_product'] = cli[0]['_id']
             send_data['cat'] = cli[0]['category']
 
             if 'گوشی' in send_data['cat']:
                 data['گوشی'].append(
-                    [send_data['url_image'], send_data['name_product'], send_data['price'], send_data['id_product']])
+                    [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
             elif 'لپ تاپ' in send_data['cat']:
                 data['لپ تاپ'].append(
-                    [send_data['url_image'], send_data['name_product'], send_data['price'], send_data['id_product']])
+                    [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
             elif 'TV' in send_data['cat']:
                 data['TV'].append(
-                    [send_data['url_image'], send_data['name_product'], send_data['price'], send_data['id_product']])
+                    [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
 
-    print(data)
     data = {'گوشی': data['گوشی'][0:6], 'لپ تاپ': data['لپ تاپ'][0:6], 'TV': data['TV'][0:6]}
     return render_template('/template_masroori/mainpage.html', data=data)
 
@@ -61,18 +55,15 @@ def index():
 def category(category_name):
     client = MongoClient('localhost', 27017)
     db = client.online_shop
-    send_data = {}
-    data = {"گوشی": [], "لپ تاپ": [], "TV": []}
     latest_products = list(db.inventory.aggregate([
         {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
     lis_show = []
     for var in latest_products:
+        send_data = {}
         name = send_data['name_product'] = var["items"]["name_product"]
-
         send_data['price'] = var["items"]["price"]
 
         cli = list(db.products.find({"name_product": name}))
-        print(cli)
         send_data['url_image'] = cli[0]['url_image']
         send_data['id_product'] = cli[0]['_id']
         send_data['cat'] = cli[0]['category']
@@ -89,11 +80,9 @@ def category(category_name):
     for item in lis:
         if 'کالای دیجیتال/گوشی' in item:
             lis_goshi.append(item.split('/')[2])
-    for item in lis:
-        if 'کالای دیجیتال/TV' in item:
+        elif 'کالای دیجیتال/TV' in item:
             lis_tv.append(item.split('/')[2])
-    for item in lis:
-        if 'کالای دیجیتال/لپ تاپ' in item:
+        elif 'کالای دیجیتال/لپ تاپ' in item:
             lis_lop.append(item.split('/')[2])
     lis_prod = {"گوشی": lis_goshi, "TV": lis_tv, "لپ تاپ": lis_lop}
 
@@ -114,4 +103,3 @@ def cart():
 @bp.route('/cart/approve')
 def cart_approve():
     return render_template('basket/checkout.html')
-#

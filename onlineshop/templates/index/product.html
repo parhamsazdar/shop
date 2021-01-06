@@ -3,7 +3,7 @@
 {% block content %}
 <span class="row p-2 m-2">
 
-<div class="col-8 img-responsive p-2" name="product" id='{{ config['inventory_id'] }}">
+<div class="col-8 img-responsive p-2" name="product" id="{{ config["inventory_id"] }}">
 	<img class="rounded float-right p-2 m-2 w-500 img-responsive col-3" src="{{config['url_image']}}">
     <div class="price-new text-center p-2 m-2"><h2 class="name_product">{{ config["name_product"] }}</h2></div>
     <p class="text-center">{{ config["category"] }}</p>

@@ -333,7 +333,9 @@ def order_list():
 def basket_list():
     client = MongoClient('localhost', 27017)
     db = client.online_shop
+    print("1111111111111111111111111111111111", session.get('basket'))
     x = session['basket']
+
     res = []
     for i in range(len(session.get('basket'))):
         y = list(db.inventory.aggregate(
@@ -393,17 +395,19 @@ def add_to_basket():
     if request.method == "POST":
         add = False
         if basket is None:
-            basket = []
-        for product in basket:
-            if product["name_product"] == request.form['name_product']:
-                product["quantity"] = int(product["quantity"]) + int(request.form['quantity'])
-                add = True
-                break
+            # basket = []
+            session['basket'] = []
+        # for product in session['basket']:
+        #     if product["name_product"] == request.form['name_product']:
+        #         product["quantity"] = int(product["quantity"]) + int(request.form['quantity'])
+        #         add = True
+        #         break
         if add is False:
             session.get('basket').append(
                 {"name_product": request.form["name_product"], "quantity": request.form["quantity"]})
+        print("222222222222222222222222222222222",session.get('basket'))
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        update_reverse(db, request)
+        # update_reverse(db, request)
         session['bug'] = None
         return {"result": "کالای مورد نظر به سبد خرید شما اضافه شد"}

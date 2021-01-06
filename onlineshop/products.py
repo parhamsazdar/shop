@@ -114,6 +114,7 @@ def product(product_id):
                       "url_image": product[0]["url_image"],
 
                       "description": product[0]["description"]}
+    print("+========================",config_product)
     return render_template('index/product.html', config=config_product)
     # return render_template('template_masroori/new_products.html')
 

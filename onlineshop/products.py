@@ -54,7 +54,7 @@ def index():
                     [send_data['name_product'], send_data['price'], send_data['url_image'], send_data['id_product']])
 
     data = {'گوشی': data['گوشی'][0:6], 'لپ تاپ': data['لپ تاپ'][0:6], 'TV': data['TV'][0:6]}
-    return render_template('/template_masroori/mainpage.html', data=data)
+    return render_template('index/index.html', data=data)
 
 
 @bp.route('/category/?name=<category_name>', methods=['GET', 'POST'])
@@ -92,7 +92,7 @@ def category(category_name):
             lis_lop.append(item.split('/')[2])
     lis_prod = {"گوشی": lis_goshi, "TV": lis_tv, "لپ تاپ": lis_lop}
 
-    return render_template('template_masroori/new_products.html', lis_prod=lis_prod,
+    return render_template('index/new_products.html', lis_prod=lis_prod,
                            category_name=category_name, lis_show=lis_show)
 
 

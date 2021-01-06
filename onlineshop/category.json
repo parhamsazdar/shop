@@ -3,16 +3,16 @@
     "name": "کالای دیجیتال",
     "subcategories": [
       {
-        "name": "گوشی",
-        "subcategoreis": [
-          {
-            "name": "اپل"
-          },
-          {
-            "name": "سامسونگ"
-          }
-        ]
-      },
+
+        "name":"گوشی",
+        "subcategoreis": [{
+          "name": "اپل"
+        },{
+
+          "name": "سونی"
+        }
+      ]},
+
       {
         "name": "TV",
         "subcategoreis": [
@@ -31,7 +31,7 @@
             "name": "سامسونگ"
           },
           {
-            "name": "سامسونگ"
+            "name": "lenovo"
           }
         ]
       }

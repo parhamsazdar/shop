@@ -15,11 +15,14 @@ def create_app(test_config=None):
     # ensure the instance folder exists
 
     # register the database commands
-    from onlineshop import manager, products, api
+
+    from . import manager, products, api
+
     # register the blueprints
     app.register_blueprint(manager.bp)
     app.register_blueprint(products.bp)
     app.register_blueprint(api.bp)
+
 
     # db.init_app(app)
 

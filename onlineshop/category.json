@@ -1,36 +1,40 @@
 [
   {
     "name": "کالای دیجیتال",
-    "subcategories" : [
+    "subcategories": [
       {
+
         "name":"گوشی",
         "subcategoreis": [{
           "name": "اپل"
         },{
 
-          "name": "سامسونگ"
+          "name": "سونی"
         }
       ]},
-      {
-        "name":"TV",
-        "subcategoreis": [{
-          "name": "اپل"
-        },
-          {
-            "name": "سامسونگ"
-          }
-      ]},
-      {
-        "name":"لپ تاپ",
-        "subcategoreis": [{
-          "name": "سامسونگ"
-        },
-          {
-            "name": "سامسونگ"
-          }
-      ]}
 
+      {
+        "name": "TV",
+        "subcategoreis": [
+          {
+            "name": "اپل"
+          },
+          {
+            "name": "سامسونگ"
+          }
+        ]
+      },
+      {
+        "name": "لپ تاپ",
+        "subcategoreis": [
+          {
+            "name": "سامسونگ"
+          },
+          {
+            "name": "lenovo"
+          }
+        ]
+      }
     ]
-
   }
 ]

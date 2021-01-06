@@ -1,30 +1,124 @@
-from flask import Blueprint,url_for,session,request,render_template,redirect,g,flash
+from bson import ObjectId
+
+from flask import Blueprint, url_for, session, request, render_template, redirect, g, flash, jsonify
+from pymongo import MongoClient
+
+from .manager import return_category
+
+bp = Blueprint('products', __name__)
 
 
-bp=Blueprint('products',__name__)
+def cheep(name):
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    y = list(db.inventory.aggregate(
+        [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name}", "items.quantity": {"$gt": 0}}},
+         {"$sort": {"items.price": 1}},
+         {"$limit": 1}]))
 
+    return y[0]["items"]["name_product"], y[0]["name_inventory"]
 
 
 @bp.route('/')
 def index():
-    return render_template('index/index.html')
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+
+    latest_products = list(db.inventory.aggregate([
+        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
+    data = {"گوشی": [], "لپ تاپ": [], "TV": []}
+    for var in latest_products:
+
+        # if var
+        send_data = {}
+        send_data['price'] = var["items"]["price"]
+        name = send_data['name_product'] = var["items"]["name_product"]
+        cheep_name, cheep_inv = cheep(name)
+        if name == cheep_name and var["name_inventory"] == cheep_inv:
+
+            cli = list(db.products.find({"name_product": name}))
+            send_data['url_image'] = cli[0]['url_image']
+            send_data['id_product'] = cli[0]['_id']
+            send_data['cat'] = cli[0]['category']
+
+            if 'گوشی' in send_data['cat']:
+                data['گوشی'].append(
+                    [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
+                     send_data['id_product']])
+            elif 'لپ تاپ' in send_data['cat']:
+                data['لپ تاپ'].append(
+                    [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
+                     send_data['id_product']])
+            elif 'TV' in send_data['cat']:
+                data['TV'].append(
+                    [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
+                     send_data['id_product']])
+    print("data00000000000000000000000", len(data["گوشی"]))
+    data = {'گوشی': data['گوشی'][0:6], 'لپ تاپ': data['لپ تاپ'][0:6], 'TV': data['TV'][0:6]}
+    print("data111111111111111111111111", len(data['گوشی']))
+    return render_template('index/index.html', data=data)
 
 
+@bp.route('/category/?name=<category_name>', methods=['GET', 'POST'])
+def category(category_name):
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    latest_products = list(db.inventory.aggregate([
+        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
+    lis_show = []
+    for var in latest_products:
+        send_data = {}
+        name = send_data['name_product'] = var["items"]["name_product"]
+        send_data['price'] = var["items"]["price"]
+
+        cli = list(db.products.find({"name_product": name}))
+        send_data['url_image'] = cli[0]['url_image']
+        send_data['id_product'] = cli[0]['_id']
+        send_data['cat'] = cli[0]['category']
+        cheep_name, cheep_inv = cheep(name)
+        if category_name in send_data['cat'] and cheep_name== name and cheep_inv == var['name_inventory']:
+            lis_show.append(
+                [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'], send_data['id_product']])
+
+    category_name = category_name
+    lis = return_category(r'onlineshop/category.json')
+    lis_goshi = []
+    lis_tv = []
+    lis_lop = []
+
+    for item in lis:
+        if 'کالای دیجیتال/گوشی' in item:
+            lis_goshi.append(item.split('/')[2])
+        elif 'کالای دیجیتال/TV' in item:
+            lis_tv.append(item.split('/')[2])
+        elif 'کالای دیجیتال/لپ تاپ' in item:
+            lis_lop.append(item.split('/')[2])
+    lis_prod = {"گوشی": lis_goshi, "TV": lis_tv, "لپ تاپ": lis_lop}
+
+    return render_template('index/new_products.html', lis_prod=lis_prod,
+                           category_name=category_name, lis_show=lis_show)
 
 
+@bp.route('/product/<product_id>')
+def product(product_id):
+    client = MongoClient('localhost', 27017)
+    db = client.online_shop
+    product = list(db.products.find({"_id": ObjectId(f'{product_id}')}))
+    name_product = product[0]['name_product']
+    inventory = list(db.inventory.aggregate(
+        [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name_product}"}},
+         {"$sort": {"items.price": 1}},
+         {"$limit": 1}]))
 
-@bp.route('/category/؟name=<category_name>')
-def category():
-    return render_template('template_masroori/new_products.html')
+    config_product = {"inventory_id": str(inventory[0]["_id"]), "price": f'{inventory[0]["items"]["price"]:,}',
+                      "quantity": inventory[0]["items"]["quantity"],
+                      "name_product": product[0]["name_product"], "category": product[0]["category"],
+                      "url_image": product[0]["url_image"],
 
-
-
-
-@bp.route('/product/')
-def product():
-    return render_template('index/inventory.html')
-
-
+                      "description": product[0]["description"]}
+    print("+========================", config_product)
+    return render_template('index/product.html', config=config_product)
+    # return render_template('template_masroori/new_products.html')
 
 
 @bp.route('/cart')
@@ -38,14 +132,3 @@ def cart():
 def cart_approve():
     print(request.args)
     return render_template('basket/checkout.html')
-
-
-
-
-
-
-
-
-
-
-

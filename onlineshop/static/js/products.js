@@ -7,9 +7,9 @@ $(document).ready(function () {
         var image = "<img src='" + product.url_image + "' style='width: 100px' >";
         var row = "<tr id='" + product._id + "'>";
         row += "<td>" + image + "</td>";
-        row += "<td>" + name + "</td>";
-        row += "<td>" + category + "</td>";
-        row += "<td class='text-center'>" + "<a data-toggle=\"modal\" href=\"#Modal_edit\">ویرایش</a>" + "  " + "<a  class='delete' href=\"#\">حذف</a>" + "</td>";
+        row += "<td class='text-center align-middle'>" + name + "</td>";
+        row += "<td class='text-center align-middle'>" + category + "</td>";
+        row += "<td class='text-center align-middle'>" + "<a data-toggle=\"modal\" href=\"#Modal_edit\">ویرایش</a>" + "  " + "<a  class='delete' href=\"#\">حذف</a>" + "</td>";
         row += "</tr>";
         $tbody.append(row);
         deleteRow(product)

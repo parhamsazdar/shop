@@ -61,6 +61,7 @@ def register():
 
             return redirect(url_for('manager.manage_panel'))
         else:
+            flash("نام کاربری یا رمز عبور اشتباه است")
             return render_template('manager/login.html')
 
 
@@ -77,7 +78,7 @@ def manage_panel():
 
 @bp.route('/products')
 def manage_products():
-    return render_template('manager/products.html',category=return_category(r'onlineshop/category.json'))
+    return render_template('manager/products.html', category=return_category(r'onlineshop/category.json'))
 
 
 @bp.route('/inventory')

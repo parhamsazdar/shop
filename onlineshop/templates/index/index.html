@@ -1,76 +1,41 @@
-{% extends 'index/base.html'%}
+{% extends 'index/base.html' %}
 
-    {% block content %}
+{% block content %}
 
-<div style="display: flex;justify-content: flex-start">
-<a class="p-2 m-3 h4" href="https://google.com/" >گوشی موبایل</a>
+
+
+<div class="container">
+
+
+    <div>
+        {% for key,val in data.items() %}
+        <div class="row">
+
+                <a href="{{url_for('products.category',category_name=key )}}">
+                    <h2 id="group_product">{{key}}</h2>
+                </a>
+        </div>
+        <div class="row justify-content-center">
+            {% for j in val %}
+            <a class="d-flex m-3 justify-content-between align-items-center col-lg-3 col-5 col-sm-8 col-md-5 pr-0 border"
+               style="display:inline" href="{{url_for('products.product',product_id=j[3])}}">
+                <div>
+                    <img src="{{j[2]}}" alt="Img Not Found!" width="100px">
+                </div>
+                <div class="text-center">
+                    <h5 id="name_product">{{j[0]}}</h5>
+                    <h4 id="price_product">{{j[1]}} تومان</h4>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+
+
 </div>
-<span class="row p-2 m-2">
 
-<a class="border border-primary col-3 btn btn-link p-2 " href ="{{ url_for('products.product') }}">
-	<img class="rounded float-right p-2 m-2 " src="../../static/images/105c.jpg">
-	<div class="price-new text-right p-2 m-2">Mobile 105C</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
 
-	<div class="col-1"></div>
-<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/Huawei Y5 Lite 2018.jpg">
-	<div class="price-new text-right p-2 m-2">Huawei Y5 Lite 2018</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-	<div class="col-1"></div>
-	<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/iPhone 12 A2404.jpg">
-	<div class="price-new text-right p-2 m-2">iPhone 12 A2404</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-	</span> <!-- row.// -->
-
-<span class="row p-2 m-2">
-<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/Galaxy A10s.jpg">
-	<div class="price-new text-right p-2 m-2">Galaxy A10s</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-	<div class="col-1"></div>
-<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/Galaxy A11 SM.jpg">
-	<div class="price-new text-right p-2 m-2">Galaxy A11 SM</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-
-	<div class="col-1"></div>
-
-	<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/Galaxy A51 SM.jpg">
-	<div class="price-new text-right p-2 m-2">Galaxy A51 SM</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-	</span> <!-- row.// -->
-<div style="display: flex;justify-content: flex-start">
-<a class="p-2 m-3 h4" href="#" >کالای تلویزیون</a>
-	</div>
-<span class="row p-2 m-2">
-<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/SSD-50SA620U.jpg">
-	<div class="price-new text-right p-2 m-2">SSD-50SA620U سایز 50 اینچ</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-	<div class="col-1"></div>
-<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/SLD-50SA260U.jpg">
-	<div class="price-new text-right p-2 m-2">SLD-50SA260U سایز 50 اینچ
-</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-	<div class="col-1"></div>
-	<a class="border border-primary col-3 btn btn-link p-2" href ="https://google.com/">
-	<img class="rounded float-right p-2 m-2" src="../../static/images/DSL-55K5300U.jpg">
-	<div class="price-new text-right p-2 m-2">DSL-55K5300U سایز 55 اینچ</div>
-	<div class="price-new text-right p-2 m-2">20000 هزار تومان</div>
-</a> <!-- col // -->
-	</span> <!-- row.// -->
 
 
 {% endblock %}

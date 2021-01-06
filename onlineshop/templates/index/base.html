@@ -21,8 +21,20 @@
             <h2>فروشگاه فلان</h2>
         </div>
         <div>
+
             <a class="navbar-brand" href="{{ url_for('manager.login') }}">مدیریت</a>
-            <a class="navbar-brand" href="{{ url_for('products.cart') }}"><i class="fa fa-shopping-cart" aria-hidden="true"></i>سبد خرید</a>
+            <a class="navbar-brand" href="{{ url_for('products.cart') }}">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                <span class="badge rounded-pill badge-success bg-success"
+                      {% if session['basket']|length == 0 %} style="display: none" {% endif %}
+
+                      id="badge">{{ session['basket']|length }}</span>
+
+
+                سبد خرید
+
+            </a>
+        <a  class="navbar-brand" href="{{ url_for('products.index')}}" >بازگشت به سایت</a>
         </div>
     </nav>
 
@@ -45,13 +57,6 @@
 
     {% endblock %}
 
-    <script src="{{ url_for('static', filename='js/jquery-3.5.1.slim.min.js') }}"></script>
-
-
-    <script src="{{ url_for('static', filename='js/Popper.js') }}"></script>
-
-    <!-- Latest compiled JavaScript -->
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 </body>
 

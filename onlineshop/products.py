@@ -1,10 +1,13 @@
 from bson import ObjectId
+
 from flask import Blueprint, url_for, session, request, render_template, redirect, g, flash, jsonify
 from pymongo import MongoClient
 
 from .manager import return_category
 
 bp = Blueprint('products', __name__)
+
+
 
 
 def cheep(name):
@@ -93,6 +96,7 @@ def category(category_name):
                            category_name=category_name, lis_show=lis_show)
 
 
+
 @bp.route('/product/<product_id>')
 def product(product_id):
     client = MongoClient('localhost', 27017)
@@ -103,10 +107,12 @@ def product(product_id):
         [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name_product}"}},
          {"$sort": {"items.price": 1}},
          {"$limit": 1}]))
+
     config_product = {"inventory_id": str(inventory[0]["_id"]), "price": inventory[0]["items"]["price"],
                       "quantity": inventory[0]["items"]["quantity"],
                       "name_product": product[0]["name_product"], "category": product[0]["category"],
                       "url_image": product[0]["url_image"],
+
                       "description": product[0]["description"]}
     return render_template('index/product.html', config=config_product)
     # return render_template('template_masroori/new_products.html')
@@ -114,25 +120,12 @@ def product(product_id):
 
 
 
-
 @bp.route('/cart')
 def cart():
+
     return render_template('basket/basket.html')
-
-
 
 
 @bp.route('/cart/approve')
 def cart_approve():
     return render_template('basket/checkout.html')
-
-
-
-
-
-
-
-
-
-
-

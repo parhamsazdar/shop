@@ -25,7 +25,7 @@ def index():
     db = client.online_shop
 
     latest_products = list(db.inventory.aggregate([
-        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
+        {"$unwind": {"path": "$items"}}, {"$sort": {"items.date_insert": -1, "items.price": 1}}]))
     data = {"گوشی": [], "لپ تاپ": [], "TV": []}
     for var in latest_products:
 
@@ -53,9 +53,7 @@ def index():
                 data['TV'].append(
                     [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
                      send_data['id_product']])
-    print("data00000000000000000000000", len(data["گوشی"]))
     data = {'گوشی': data['گوشی'][0:6], 'لپ تاپ': data['لپ تاپ'][0:6], 'TV': data['TV'][0:6]}
-    print("data111111111111111111111111", len(data['گوشی']))
     return render_template('index/index.html', data=data)
 
 
@@ -64,7 +62,7 @@ def category(category_name):
     client = MongoClient('localhost', 27017)
     db = client.online_shop
     latest_products = list(db.inventory.aggregate([
-        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
+        {"$unwind": {"path": "$items"}}, {"$sort": {"items.date_insert": -1, "items.price": 1}}]))
     lis_show = []
     for var in latest_products:
         send_data = {}
@@ -76,7 +74,7 @@ def category(category_name):
         send_data['id_product'] = cli[0]['_id']
         send_data['cat'] = cli[0]['category']
         cheep_name, cheep_inv = cheep(name)
-        if category_name in send_data['cat'] and cheep_name== name and cheep_inv == var['name_inventory']:
+        if category_name in send_data['cat'] and cheep_name == name and cheep_inv == var['name_inventory']:
             lis_show.append(
                 [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'], send_data['id_product']])
 
@@ -106,7 +104,8 @@ def product(product_id):
     product = list(db.products.find({"_id": ObjectId(f'{product_id}')}))
     name_product = product[0]['name_product']
     inventory = list(db.inventory.aggregate(
-        [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name_product}"}},
+        [{"$unwind": {"path": "$items"}},
+         {"$match": {"items.name_product": f"{name_product}", "items.quantity": {"$gt": 0}}},
          {"$sort": {"items.price": 1}},
          {"$limit": 1}]))
 
@@ -116,9 +115,7 @@ def product(product_id):
                       "url_image": product[0]["url_image"],
 
                       "description": product[0]["description"]}
-    print("+========================", config_product)
     return render_template('index/product.html', config=config_product)
-    # return render_template('template_masroori/new_products.html')
 
 
 @bp.route('/cart')
@@ -128,4 +125,5 @@ def cart():
 
 @bp.route('/cart/approve')
 def cart_approve():
+    print(request.args)
     return render_template('basket/checkout.html')

@@ -3,6 +3,7 @@ $(document).ready(function () {
   var totalCoast = 0;
   var $badge = $('#badge')
 
+
   function createRow(inventory) {
     var name_product = inventory.items.name_product;
     var price = inventory.items.price;
@@ -21,7 +22,7 @@ $(document).ready(function () {
       inventory.name_inventory +
       "'>";
     row += "<td>" + name_product + "</td>";
-    row += "<td>" + price + "</td>";
+    row += "<td>" + new Intl.NumberFormat().format(price) + "</td>";
     row += "<td>" + quantity + "</td>";
     row +=
       "<td class='text-center'>" +
@@ -50,9 +51,9 @@ $(document).ready(function () {
           success: function (resp) {
             $tr.remove();
             $badge.html(parseInt($badge.html())-1)
-            $totalCoast.html(
-              `${parseInt($totalCoast.text()) - product.items.price * product.quantity}`
-            );
+            $totalCoast.attr('value',
+              `${parseInt($totalCoast.attr('value')) - product.items.price * product.quantity}`
+            ).html(new Intl.NumberFormat().format($totalCoast.attr('value')));
           }
         });
 
@@ -64,7 +65,8 @@ $(document).ready(function () {
   $.get("/api/basket/list", function (resp) {
     // console.log(resp)
     resp.forEach((product) => createRow(product));
-    $("#totalCoast").append(totalCoast);
+    $("#totalCoast").append(new Intl.NumberFormat().format(totalCoast));
+    $("#totalCoast").attr('value',totalCoast)
     var $tr = $("#basket tr");
     // console.log($('#basket tr'))
     product = "";

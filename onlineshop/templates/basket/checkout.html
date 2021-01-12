@@ -1,66 +1,83 @@
 {% extends 'basket/basket.html' %}
+
 {% block content %}
-    <!-- Products TAB -->
-    <div class="container">
-        <div class="row d-flex justify-content-between">
+<!-- Products TAB -->
+<div class="container">
+    <div class="row d-flex justify-content-between">
 
-            <div class="p-4">
-                <h2>نهایی کردن خرید</h2>
-            </div>
-            <div class="p-4">
-
-            </div>
+        <div class="p-4">
+            <h2>نهایی کردن خرید</h2>
+        </div>
+        <div class="p-4">
 
         </div>
 
-        <form class="text-right" id="record_form" action="{{ url_for('api.record_form') }}" method="post" name="form">
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="first_name">نام:</label>
-                    <input type="text" class="form-control" id="first_name" name="name" required>
-                </div>
-                <div class="form-group col-md-6">
-                    <label for="last_name">نام خانوادگی:</label>
-                    <input type="text" class="form-control is-invalid" id="last_name" required name="family_name">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="address">آدرس:</label>
-                <input type="text" class="form-control is-invalid" id="address" required name="address">
-            </div>
-            <div class="form-row">
-
-
-                <div class="form-group col-md-6">
-                    <label for="date-give">تاریخ تحویل:</label>
-                    <div class="col-10">
-                        <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00"
-                               id="date-give" name="date-give">
-                    </div>
-                </div>
-
-
-                <div class="form-group col-md-6">
-                    <label for="phone">تلفن همراه:</label>
-                    <input type="text" class="form-control is-invalid" id="phone" required name="phone">
-                </div>
-            </div>
-
-            <div class="row d-flex justify-content-center">
-                <div class="d-flex justify-content-center">
-                    <button class="btn btn-success" type="submit" id="record">ثبت نهایی سفارش</button>
-                </div>
-            </div>
-
-        </form>
-
-
     </div>
-{% endblock %}
 
+    <form class="text-right" id="record_form" action="{{ url_for('api.record_form') }}" method="post" name="form">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="first_name">نام:</label>
+                <input type="text" class="form-control" id="first_name" name="name" required>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="last_name">نام خانوادگی:</label>
+                <input type="text" class="form-control is-invalid" id="last_name" required name="family_name">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="address">آدرس:</label>
+            <input type="text" class="form-control is-invalid" id="address" required name="address">
+        </div>
+        <div class="form-row">
+
+
+<!--            <div class="form-group col-md-6">-->
+<!--                <label for="date-give">تاریخ تحویل:</label>-->
+<!--                <div class="col-10">-->
+<!--                    <input class="form-control" type="datetime-local" value="2011-08-19T13:45:00"-->
+<!--                           id="date-give" name="date-give">-->
+<!--                </div>-->
+<!--            </div>-->
+
+            <div class="form-group col-md-6">
+                <label for="observer">تاریخ تحویل:</label>
+                <input id="observer" type="text" class="form-control" name="date-give"/>
+            </div>
+
+
+            <div class="form-group col-md-6">
+                <label for="phone">تلفن همراه:</label>
+                <input type="text" class="form-control is-invalid" id="phone" required name="phone">
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="d-flex justify-content-center">
+                <button class="btn btn-success" type="submit" id="record">ثبت نهایی سفارش</button>
+            </div>
+        </div>
+
+    </form>
+
+
+</div>
+{% endblock %}
 
 
 {% block script %}
 
-    <script src="{{ url_for('static', filename='js/checkout.js') }}?u={{ last_updated }}"></script>
+<script src="{{ url_for('static', filename='js/checkout.js') }}?u={{ last_updated }}"></script>
+{% endblock %}
+
+
+{% block morelink%}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/date/persian-datepicker-0.4.5.css') }}">
+<script type="text/javascript"
+        src="{{ url_for('static', filename='js/date/persian-date.min.js') }}?u={{ last_updated }}"></script>
+
+<script type="text/javascript"
+        src="{{ url_for('static', filename='js/date/persian-datepicker.min.js') }}?u={{ last_updated }}"></script>
+
 {% endblock %}

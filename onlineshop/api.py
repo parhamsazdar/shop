@@ -1,17 +1,18 @@
-import functools
 import json
 import os
 from bson import ObjectId
 from flask import Blueprint, url_for, session, request, render_template, redirect, g, flash, jsonify
+from persiantools import digits
 from pymongo import MongoClient
 import io
 from json import load
+
+from werkzeug.datastructures import FileStorage
 from werkzeug.utils import secure_filename
 import openpyxl
 from pathlib import Path
 from datetime import datetime
 from persiantools.jdatetime import JalaliDateTime, JalaliDate
-from persiantools import characters, digits
 
 bp = Blueprint('api', __name__, url_prefix="/api")
 
@@ -71,6 +72,14 @@ def update_reverse(db, request):
         return False
 
 
+def has_image(f):
+    if len(f) == 0:
+        return '/static/images/surface.jpg'
+    else:
+        f['file'].save(r'onlineshop/static/images/' + secure_filename(f['file'].filename))
+        return fr"/static/images/{secure_filename(f['file'].filename)}"
+
+
 @bp.route('/product/list')
 def prod_list():
     client = MongoClient('localhost', 27017)
@@ -79,6 +88,19 @@ def prod_list():
     for i in prod_list:
         i["_id"] = str(i["_id"])
     return jsonify(prod_list)
+
+
+@bp.route('product/return_product_id', methods=('GET', 'POST'))
+def return_product_id():
+    if request.method == "POST":
+        client = MongoClient('localhost', 27017)
+        db = client.online_shop
+        res = list(db.products.find({"name_product": request.form["name_product"]}, {"_id": 1}))
+        res = [{"_id": str(i["_id"])} for i in res]
+        if len(res) > 0:
+            return jsonify(res)
+        else:
+            return jsonify([{"_id": "#"}])
 
 
 @bp.route('/product/<product_id>')
@@ -94,11 +116,17 @@ def prod_add():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        f = request.files['file']
-        f.save(r'onlineshop/static/images/' + secure_filename(f.filename))
+        f = request.files
+
+        if f['file'].filename == '':
+            f = '/static/images/surface.jpg'
+        else:
+            f['file'].save(r'onlineshop/static/images/' + secure_filename(f['file'].filename))
+            f = fr"/static/images/{secure_filename(f['file'].filename)}"
+
         prob_add = {"name_product": request.form.get('product_name'), "description": request.form.get('description'),
                     "category": request.form.get('category'),
-                    "url_image": fr"/static/images/{secure_filename(f.filename)}"}
+                    "url_image": f}
         res = db.products.insert_one(prob_add)
 
         db = list(db.products.find({"_id": res.inserted_id}))
@@ -113,12 +141,17 @@ def prod_edit():
     if request.method == "POST":
         client = MongoClient('localhost', 27017)
         db = client.online_shop
-        f = request.files['file']
-        f.save(r'onlineshop/static/images/' + secure_filename(f.filename))
+        f = request.files
+        if f['file'].filename == '':
+            url_image = list(db.products.find({"_id": ObjectId(request.form.get('_id'))}, {"url_image": 1, "_id": 0}))
+        else:
+            f['file'].save(r'onlineshop/static/images/' + secure_filename(f["file"].filename))
+            url_image = [{"url_image": fr"/static/images/{secure_filename(f['file'].filename)}"}]
+
         db.products.update({"_id": ObjectId(request.form.get('_id'))}, {
             "$set": {"name_product": request.form.get('product_name'), "description": request.form.get('description'),
                      "category": request.form.get('category'),
-                     "url_image": fr"/static/images/{secure_filename(f.filename)}"}})
+                     "url_image": url_image[0]["url_image"]}})
         res = list(db.products.find({"_id": ObjectId(request.form.get('_id'))}))
         print(res)
         for i in res:
@@ -139,7 +172,7 @@ def prod_delete(product_id):
 
 @bp.route('/product/upload', methods=('GET', 'POST'))
 def upload_file_category():
-    if request.method == 'POST':
+    if request.method == 'POST' and request.files['file']:
 
         f = request.files['file']
         print(request.form)
@@ -156,6 +189,7 @@ def upload_file_category():
             return jsonify([{'error': f'{ex}'}])
         finally:
             os.remove(fr'onlineshop/uploads/{secure_filename(f.filename)}')
+    return jsonify([{'error': "No File Added"}])
 
 
 @bp.route('/product/json_category')
@@ -303,7 +337,6 @@ def quantity_add():
     for i in name_inventory:
         i["_id"] = str(i["_id"])
 
-
     res.update(name_inventory[0])
     res.update(request.form)
     return jsonify(res)
@@ -380,7 +413,7 @@ def record_form():
         basket = {
             "customer_first_name": request.form['name'],
             "customer_last_name": request.form['family_name'],
-            "time_give": datetime.fromisoformat(request.form['date-give']),
+            "time_give": JalaliDateTime.fromisoformat(request.form['date-give']).to_gregorian(),
             "time_record": datetime.now(),
             "phone": int(request.form['phone']),
             "total_costs": int(request.form['totalCoast']),

@@ -33,17 +33,33 @@ $(document).ready(function () {
 
 
         for (let i = 0; i < order.items.length; ++i) {
-            var name_product = order.items[i].name_product;
-            var quantity = order.items[i].quantity;
-            var price = order.items[i].price;
-            var name_inventory = order.items[i].name_inventory;
-            var row = "<tr id='" + order._id + "'>";
-            row += "<td>" + name_product + "</td>";
-            row += "<td>" + price + "</td>";
-            row += "<td>" + quantity + "</td>";
-            row += "<td>" + name_inventory + "</td>";
-            row += "</tr>";
-            $tbody_2.append(row);
+            $.ajax({
+            url:'/api/product/return_product_id',
+            type:"POST",
+            data:{name_product:order.items[i].name_product},
+            success:function (resp) {
+                if (resp[0]["_id"]=="#"){
+                    product_id="#"
+                }
+                else{
+                    product_id="/product/"+resp[0]["_id"]
+                }
+                var name_product = order.items[i].name_product;
+                var quantity = order.items[i].quantity;
+                var price = order.items[i].price;
+                var name_inventory = order.items[i].name_inventory;
+                var row = "<tr id='" + order._id + "'>";
+                row += "<td>" + "<a href='"+product_id+"'>"+name_product +"</a>"+ "</td>";
+                row += "<td>" + new Intl.NumberFormat().format(price) + "</td>";
+                row += "<td>" + quantity + "</td>";
+                row += "<td>" + name_inventory + "</td>";
+                row += "</tr>";
+                $tbody_2.append(row);
+            }
+
+            })
+
+
         }
     }
 
@@ -68,7 +84,7 @@ $(document).ready(function () {
                         $('[name="time_give"]').append(time_give);
                         $('[name="time_record"]').append(time_record);
                         $tbody_2.empty();
-                        console.log(resp);
+//                        console.log(resp);
                         createRow_2(order)
                     }
                 });

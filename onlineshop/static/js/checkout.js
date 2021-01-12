@@ -1,6 +1,15 @@
 $(document).ready(function () {
   params = new URLSearchParams(window.location.search);
 
+
+ $("#observer").persianDatepicker({
+          altField: "#observer",
+          altFormat: "YYYY-MM-DD",
+          observer: true,
+          format: "YYYY/MM/DD",
+        });
+
+
   $("#record_form").submit(function (e) {
     var form = $(this);
     e.preventDefault(); // avoid to execute the actual submit of the form.

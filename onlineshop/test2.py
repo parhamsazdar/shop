@@ -6,7 +6,7 @@ from flask import Blueprint, url_for, session, request, render_template, redirec
 from pymongo import MongoClient
 import io
 from json import load
-import xlrd
+
 from werkzeug.utils import secure_filename
 import openpyxl
 from pathlib import Path

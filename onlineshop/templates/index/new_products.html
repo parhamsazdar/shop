@@ -12,12 +12,12 @@
 
                     <ul class="list-unstyled components mb-5" id="list_right">
                         <li class="active">
-                            <a class="h4" href="{{url_for('products.category',category_name=key)}}">{{key}}</a>
+                            <a class="h2 text-decoration-none" href="{{url_for('products.category',category_name=key)}}">{{key}}</a>
 
                             <ul class="list-unstyled">
                                 {% for j in val %}
                                 <li class="h5">
-                                    <a href="#">{{j}}</a>
+                                    <a class="text-decoration-none" href="#">{{j}}</a>
                                 </li>
                                 {% endfor %}
                             </ul>
@@ -44,7 +44,7 @@
                     {% for items in lis_show %}
 
 
-                    <a class="d-flex m-3 justify-content-between align-items-center col-lg-4 col-6 col-sm-8 col-md-6 pr-0 border"
+                    <a class="hover-overlay ripple shadow-1-strong rounded shadow d-flex text-decoration-none bg-light m-3 justify-content-between align-items-center col-lg-4 col-6 col-sm-8 col-md-6 pr-0 border"
                        style="display:inline" href="{{url_for('products.product',product_id=items[3])}}">
                         <div>
                             <img src="{{items[2]}}" alt="Img Not Found!" width="100px">

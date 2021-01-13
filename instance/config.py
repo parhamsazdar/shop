@@ -1,4 +1,4 @@
-DATABASE_NAME='store_db'
+DATABASE_NAME='online_shop'
 DATABASE_PASS='22561342Ps'
-DATABASE_USER='postgres'
+DATABASE_USER='localhost'
 SECRET_KEY = "dev"

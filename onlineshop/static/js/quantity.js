@@ -68,11 +68,15 @@ $(document).ready(function () {
   }
 
   function handleEditLink(inventory) {
-    $(document.getElementById(inventory._id))
+    var name=$(document.getElementsByName(name_product +
+      inventory._id)).attr('name_product')
+
+    $(document.getElementsByName(name_product +
+      inventory._id))
       .find('a[href="#Modal_Edition_Quantity"]')
       .click(function () {
-        $modal.prop("value", inventory._id);
-        $modal.attr("name_product", inventory.items.name_product);
+        $modal.attr("value", inventory._id);
+        $modal.attr("name_product", name);
         console.log("kir");
       });
   }
@@ -82,7 +86,7 @@ $(document).ready(function () {
     var $tds = $(
       document.getElementsByName(inventory.name_product + inventory._id)
     ).find("td");
-    $($tds[2]).html(inventory.price);
+    $($tds[2]).html(new Intl.NumberFormat().format(inventory.price));
     $price = $($tds[3]).text();
     $($tds[3]).html(parseInt($price) + parseInt(inventory.quantity));
   }
@@ -160,7 +164,7 @@ $(document).ready(function () {
     $.ajax({
       url: "/api/inventory/edit",
       data: {
-        _id: $modal.prop("value"),
+        _id: $modal.attr("value"),
         name_product: $modal.attr("name_product"),
         price: $("#num_price").val(),
         quantity: $("#Modal_Edition_Quantity #num_prod").val()

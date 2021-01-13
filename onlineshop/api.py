@@ -257,7 +257,7 @@ def inventory_edit():
 
             return jsonify([{"result": "update succsesfully"}, request.form])
         else:
-            pass
+            return jsonify([{"result": "update succsesfully"}, request.form])
 
 
 @bp.route('inventory/add_prod', methods=('GET', 'POST'))

@@ -11,13 +11,13 @@
         {% for key,val in data.items() %}
         <div class="row">
 
-                <a href="{{url_for('products.category',category_name=key )}}">
+                <a class="text-decoration-none " href="{{url_for('products.category',category_name=key )}}">
                     <h2 id="group_product">{{key}}</h2>
                 </a>
         </div>
         <div class="row justify-content-center">
             {% for j in val %}
-            <a class="d-flex m-3 justify-content-between align-items-center col-lg-3 col-5 col-sm-8 col-md-5 pr-0 border"
+            <a class="hover-overlay ripple shadow-1-strong rounded shadow d-flex bg-light text-decoration-none  m-3 justify-content-between align-items-center col-lg-3 col-5 col-sm-8 col-md-5 pr-0 border"
                style="display:inline" href="{{url_for('products.product',product_id=j[3])}}">
                 <div>
                     <img src="{{j[2]}}" alt="Img Not Found!" width="100px">

@@ -14,23 +14,25 @@
         }
         * {
         font-family: Vazir;
+
         }
+
     </style>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
 
     <title>Document</title>
 </head>
 
-<body dir="rtl" style="height:100vh">
+<body dir="rtl">
 
-<nav class="navbar navbar-expand-sm bg-light justify-content-between">
-    <div class="d-flex">
+<nav class="navbar navbar-expand-sm justify-content-between p-2 mb-4" style="background-color: #dddddd;">
+    <div class="d-flex align-items-center">
         <img class="w-25" src="../../static/images/logo-shop.png">
-        <h2>فروشگاه فلان</h2>
+        <span class="h3 ">فروشگاه کالای دیجیتال</span>
     </div>
     <div>
 
-        <a class="navbar-brand" href="{{ url_for('manager.login') }}">مدیریت</a>
+        <a class="navbar-brand h4" href="{{ url_for('manager.login') }}">مدیریت</a>
         <a class="navbar-brand" href="{{ url_for('products.cart') }}">
             <i class="fa fa-shopping-cart" aria-hidden="true"></i>
             <span class="badge rounded-pill badge-success bg-success"
@@ -49,11 +51,11 @@
 <div dir="rtl">
     {% block content %}{% endblock %}
     {% block footer %}
-    <footer class="bg-light text-center text-lg-start">
+    <footer class="bg-light text-center text-lg-start mt-2">
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
-            © 2020 Copyright:
-            <a class="text-dark" href="#">فروشگاه فلان</a>
+            © تمام حقوق این سایت متعلق به فروشگاه کالای دیجیتال است.
+
         </div>
         <!-- Copyright -->
     </footer>

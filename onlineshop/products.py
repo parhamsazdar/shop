@@ -19,17 +19,16 @@ def cheep(name):
     return y[0]["items"]["name_product"], y[0]["name_inventory"]
 
 
-@bp.route('/')
-def index():
+def query_to_inventory(category=None):
     client = MongoClient('localhost', 27017)
     db = client.online_shop
 
     latest_products = list(db.inventory.aggregate([
-        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
+        {"$unwind": {"path": "$items"}}, {"$sort": {"items.date_insert": -1, "items.price": 1}}]))
     data = {"گوشی": [], "لپ تاپ": [], "TV": []}
+    lis_show = []
     for var in latest_products:
 
-        # if var
         send_data = {}
         send_data['price'] = var["items"]["price"]
         name = send_data['name_product'] = var["items"]["name_product"]
@@ -41,45 +40,40 @@ def index():
             send_data['id_product'] = cli[0]['_id']
             send_data['cat'] = cli[0]['category']
 
-            if 'گوشی' in send_data['cat']:
+            if (category is None) and 'گوشی' in send_data['cat']:
                 data['گوشی'].append(
                     [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
                      send_data['id_product']])
-            elif 'لپ تاپ' in send_data['cat']:
+            elif (category is None) and 'لپ تاپ' in send_data['cat']:
                 data['لپ تاپ'].append(
                     [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
                      send_data['id_product']])
-            elif 'TV' in send_data['cat']:
+            elif (category is None) and 'TV' in send_data['cat']:
                 data['TV'].append(
                     [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
                      send_data['id_product']])
-    print("data00000000000000000000000", len(data["گوشی"]))
+
+            elif category in send_data['cat'] and cheep_name == name and cheep_inv == var['name_inventory']:
+                lis_show.append(
+                    [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'],
+                     send_data['id_product']])
+    if lis_show:
+        return lis_show
+    else:
+        return data
+
+
+@bp.route('/')
+def index():
+    data = query_to_inventory()
     data = {'گوشی': data['گوشی'][0:6], 'لپ تاپ': data['لپ تاپ'][0:6], 'TV': data['TV'][0:6]}
-    print("data111111111111111111111111", len(data['گوشی']))
+
     return render_template('index/index.html', data=data)
 
 
 @bp.route('/category/?name=<category_name>', methods=['GET', 'POST'])
 def category(category_name):
-    client = MongoClient('localhost', 27017)
-    db = client.online_shop
-    latest_products = list(db.inventory.aggregate([
-        {"$unwind": {"path": "$items"}}, {"$sort": {"items.price": 1, "items.date_insert": -1}}]))
-    lis_show = []
-    for var in latest_products:
-        send_data = {}
-        name = send_data['name_product'] = var["items"]["name_product"]
-        send_data['price'] = var["items"]["price"]
-
-        cli = list(db.products.find({"name_product": name}))
-        send_data['url_image'] = cli[0]['url_image']
-        send_data['id_product'] = cli[0]['_id']
-        send_data['cat'] = cli[0]['category']
-        cheep_name, cheep_inv = cheep(name)
-        if category_name in send_data['cat'] and cheep_name== name and cheep_inv == var['name_inventory']:
-            lis_show.append(
-                [send_data['name_product'], f"{send_data['price']:,}", send_data['url_image'], send_data['id_product']])
-
+    lis_show = query_to_inventory(category=category_name)
     category_name = category_name
     lis = return_category(r'onlineshop/category.json')
     lis_goshi = []
@@ -116,9 +110,9 @@ def product(product_id):
                       "url_image": product[0]["url_image"],
 
                       "description": product[0]["description"]}
-    print("+========================", config_product)
+
     return render_template('index/product.html', config=config_product)
-    # return render_template('template_masroori/new_products.html')
+
 
 
 @bp.route('/cart')

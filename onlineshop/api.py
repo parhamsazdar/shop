@@ -6,7 +6,7 @@ from persiantools import digits
 from pymongo import MongoClient
 import io
 from json import load
-
+from flask import current_app
 
 from werkzeug.utils import secure_filename
 import openpyxl
@@ -15,6 +15,7 @@ from datetime import datetime
 from persiantools.jdatetime import JalaliDateTime, JalaliDate
 
 bp = Blueprint('api', __name__, url_prefix="/api")
+
 
 
 def return_category(filename):
@@ -82,8 +83,9 @@ def has_image(f):
 
 @bp.route('/product/list')
 def prod_list():
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     prod_list = list(db.products.find())
     for i in prod_list:
         i["_id"] = str(i["_id"])
@@ -93,8 +95,10 @@ def prod_list():
 @bp.route('product/return_product_id', methods=('GET', 'POST'))
 def return_product_id():
     if request.method == "POST":
+
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         res = list(db.products.find({"name_product": request.form["name_product"]}, {"_id": 1}))
         res = [{"_id": str(i["_id"])} for i in res]
         if len(res) > 0:
@@ -105,8 +109,9 @@ def return_product_id():
 
 @bp.route('/product/<product_id>')
 def prod_details(product_id, db):
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     prod_details = list(db.products.find({"_id": product_id}))
     return jsonify(prod_details)
 
@@ -114,8 +119,9 @@ def prod_details(product_id, db):
 @bp.route('/product/add', methods=('GET', 'POST'))
 def prod_add():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         f = request.files
 
         if f['file'].filename == '':
@@ -139,8 +145,9 @@ def prod_add():
 @bp.route('/product/edit', methods=('GET', 'POST'))
 def prod_edit():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         f = request.files
         if f['file'].filename == '':
             url_image = list(db.products.find({"_id": ObjectId(request.form.get('_id'))}, {"url_image": 1, "_id": 0}))
@@ -161,8 +168,9 @@ def prod_edit():
 
 @bp.route('/product/delete/<product_id>')
 def prod_delete(product_id):
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     db.products.delete_one({"_id": ObjectId(product_id)})
     res = list(db.products.find())
     for i in res:
@@ -179,8 +187,9 @@ def upload_file_category():
         f.save(r'onlineshop/uploads/' + secure_filename(f.filename))
         try:
             category = check_validation_excel(fr'onlineshop/uploads/{secure_filename(f.filename)}')
+            database = current_app.config['DATABASE_NAME']
             client = MongoClient('localhost', 27017)
-            db = client.online_shop
+            db = client[database]
             for i in category:
                 res = db.products.insert_one(i)
                 i['_id'] = str(res.inserted_id)
@@ -201,8 +210,9 @@ def prod_json_category():
 
 @bp.route('/inventory/list')
 def inventory_list():
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     inventory_list = list(db.inventory.find({}, {"name_inventory": 1}))
     for i in inventory_list:
         i["_id"] = str(i["_id"])
@@ -211,8 +221,9 @@ def inventory_list():
 
 @bp.route('/inventory/delete/<inventory_id>')
 def inventory_delete(inventory_id):
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     db.inventory.delete_one({"_id": ObjectId(inventory_id)})
     res = list(db.inventory.find())
     for i in res:
@@ -222,8 +233,9 @@ def inventory_delete(inventory_id):
 
 @bp.route('/inventory/add')
 def inventory_add():
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     count = db.inventory.count_documents({})
     new_inventory = {"name_inventory": f" انبار شماره {count + 1} ", "items": []}
     res = db.inventory.insert_one(new_inventory)
@@ -234,8 +246,9 @@ def inventory_add():
 @bp.route('/inventory/items', methods=('GET', 'POST'))
 def inventory_items():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         data = request.form['_id']
         res = db.inventory.aggregate(
             [{"$unwind": {"path": "$items"}}, {"$match": {"_id": ObjectId(f"{data}")}},
@@ -246,8 +259,9 @@ def inventory_items():
 @bp.route('inventory/edit', methods=('GET', 'POST'))
 def inventory_edit():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         if update(db, request):
             db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}'),
                                  "items": {"$elemMatch": {"name_product": f'{request.form.get("name_product")}'}}},
@@ -263,8 +277,9 @@ def inventory_edit():
 @bp.route('inventory/add_prod', methods=('GET', 'POST'))
 def inventory_add_prod():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         if update(db, request):
             db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
                                 {"$push": {
@@ -281,8 +296,9 @@ def inventory_add_prod():
 @bp.route('inventory/edit_name_inventory', methods=('GET', 'POST'))
 def inventory_edit_name_inventory():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         db.inventory.update({"_id": ObjectId(f'{request.form.get("_id")}')},
                             {"$set": {"name_inventory": request.form.get('name_inventory')}})
 
@@ -293,8 +309,9 @@ def inventory_edit_name_inventory():
 @bp.route('inventory/delete_prod', methods=('GET', 'POST'))
 def inventory_delete_prod():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         db.inventory.update(
             {"_id": ObjectId(f'{request.form.get("_id")}')},
             {"$pull": {"items": {"name_product": request.form.get('name_product')}}}
@@ -306,8 +323,9 @@ def inventory_delete_prod():
 
 @bp.route('quantity/quantity_list')
 def quantity_list():
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     res = list(db.inventory.aggregate([{"$unwind": {"path": "$items"}}]))
     for i in res:
         i["_id"] = str(i["_id"])
@@ -317,8 +335,9 @@ def quantity_list():
 
 @bp.route('quantity/quantity_add', methods=('GET', 'POST'))
 def quantity_add():
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     name_inventory = list(db.inventory.find({"_id": ObjectId(f'{request.form.get("_id")}')}, {"name_inventory": 1}))
     if update(db, request):
         res = {'result': False}
@@ -344,8 +363,9 @@ def quantity_add():
 
 @bp.route('/order/list')
 def order_list():
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
 
     res = list(db.basket.find())
     for i in res:
@@ -370,8 +390,9 @@ def order_list():
 
 @bp.route('/basket/list')
 def basket_list():
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
 
     x = session['basket']
 
@@ -392,8 +413,9 @@ def basket_list():
 @bp.route('/basket/delete', methods=('GET', 'POST'))
 def basket_delete():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         res = db.inventory.update_many(
             {"_id": ObjectId(request.form.get('_id')), "items.name_product": request.form.get('name_product')},
             {"$inc": {"items.$.quantity": int(request.form.get('quantity'))}})
@@ -406,8 +428,9 @@ def basket_delete():
 @bp.route('/basket/record_form', methods=('GET', 'POST'))
 def record_form():
     if request.method == "POST":
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         items = session['basket']
 
         basket = {
@@ -447,8 +470,9 @@ def add_to_basket():
             session.get('basket').append(
                 {"name_product": request.form["name_product"], "quantity": request.form["quantity"]})
 
+        database = current_app.config['DATABASE_NAME']
         client = MongoClient('localhost', 27017)
-        db = client.online_shop
+        db = client[database]
         update_reverse(db, request)
         session['bug'] = None
         return {"result": "کالای مورد نظر به سبد خرید شما اضافه شد"}

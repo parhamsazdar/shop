@@ -1,6 +1,6 @@
 from bson import ObjectId
 
-from flask import Blueprint, url_for, session, request, render_template, redirect, g, flash, jsonify
+from flask import Blueprint, request, render_template, current_app
 from pymongo import MongoClient
 
 from .manager import return_category
@@ -9,8 +9,9 @@ bp = Blueprint('products', __name__)
 
 
 def cheep(name):
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     y = list(db.inventory.aggregate(
         [{"$unwind": {"path": "$items"}}, {"$match": {"items.name_product": f"{name}", "items.quantity": {"$gt": 0}}},
          {"$sort": {"items.price": 1}},
@@ -20,8 +21,9 @@ def cheep(name):
 
 
 def query_to_inventory(category=None):
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
 
     latest_products = list(db.inventory.aggregate([
         {"$unwind": {"path": "$items"}}, {"$sort": {"items.date_insert": -1, "items.price": 1}}]))
@@ -97,8 +99,9 @@ def category(category_name):
 
 @bp.route('/product/<product_id>')
 def product(product_id):
+    database = current_app.config['DATABASE_NAME']
     client = MongoClient('localhost', 27017)
-    db = client.online_shop
+    db = client[database]
     product = list(db.products.find({"_id": ObjectId(f'{product_id}')}))
     name_product = product[0]['name_product']
     inventory = list(db.inventory.aggregate(

@@ -1,4 +1,4 @@
 DATABASE_NAME='online_shop'
-DATABASE_PASS='22561342Ps'
-DATABASE_USER='localhost'
-SECRET_KEY = "dev"
+DATABASE_PASS='you password'
+DATABASE_USER='username'
+SECRET_KEY = "your secret key"
